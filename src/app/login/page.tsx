@@ -15,24 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Images from "../assets/images";
 import Image from "next/image";
 import { Col, Row } from "antd";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { FaFacebook, FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
@@ -56,7 +40,7 @@ export default function SignInSide() {
           item
           xs={false}
           sm={4}
-          md={7}
+          md={4}
           sx={{
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -65,25 +49,15 @@ export default function SignInSide() {
           }}
           style={{ position: "relative" }}
         >
-          {" "}
-          <div className="w-full h-full">
-            {" "}
-            {Images.loginLogo.map((row) => (
-              <div key={row.id} className="grid grid-cols-2">
-                {row?.theme.map((url) => (
-                  <div key={url.src} className="grid-cols-2">
-                    <Image
-                      src={url}
-                      alt="Login Logo"
-                      objectFit="cover" // Ensures the image covers the grid item without stretching
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
+          <div className="w-full h-full absolute top-0 left-0">
+            <Image
+              src={Images.theme7}
+              alt="Fashion Valley"
+              objectFit="cover" // Ensures the image covers the grid item without stretching
+            />
           </div>
         </Grid>
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
@@ -93,6 +67,16 @@ export default function SignInSide() {
               alignItems: "center",
             }}
           >
+            <Avatar
+              sx={{
+                m: 0,
+                width: "50px",
+                height: "50px",
+                bgcolor: "secondary.main",
+              }}
+            >
+              <Image src={Images.theme8} alt="Fashion Valley" />
+            </Avatar>
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
@@ -141,14 +125,48 @@ export default function SignInSide() {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>
-              <Copyright sx={{ mt: 5 }} />
+              <div className="w-full mt-7 flex justify-center flex-wrap">
+                <p>Sign in with your other accounts</p>
+                <div className="w-full mt-7 flex justify-center">
+                  <div className="text-[35px] mr-3 text-[#3333ff] cursor-pointer">
+                    <FaFacebook />
+                  </div>
+                  <div className="text-[38px] mr-3 cursor-pointer">
+                    <FcGoogle />
+                  </div>
+                  <div className="text-[35px] mr-3 cursor-pointer">
+                    <FaGithub />
+                  </div>
+                </div>
+              </div>
             </Box>
           </Box>
+        </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={2}
+          md={4}
+          sx={{
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+          }}
+          style={{ position: "relative" }}
+        >
+          <div className="w-full h-full  absolute top-0 left-0">
+            <Image
+              src={Images.theme6}
+              alt="Fashion Valley"
+              objectFit="cover" // Ensures the image covers the grid item without stretching
+            />
+          </div>
         </Grid>
       </Grid>
     </ThemeProvider>

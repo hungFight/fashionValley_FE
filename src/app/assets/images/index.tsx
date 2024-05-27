@@ -5,12 +5,20 @@ import theme3 from "./theme3.png";
 import theme4 from "./theme4.webp";
 import theme5 from "./theme5.jpg";
 import theme6 from "./theme6.jpg";
-const loginLogo = [
-  { id: 1, theme: [theme, theme1] },
-  { id: 2, theme: [theme2, theme3] },
-  { id: 3, theme: [theme4, theme5] },
-];
+import theme7 from "./theme7.jpg";
+import theme8 from "./theme8.jpeg";
+import theme9 from "./theme9.jpg";
+
 const Images = {
-  loginLogo,
+  theme1,
+  theme,
+  theme2,
+  theme3,
+  theme5,
+  theme4,
+  theme6,
+  theme7,
+  theme8,
+  theme9,
 };
 export default Images;
