@@ -24,7 +24,9 @@ const onChange: CheckboxProps["onChange"] = (e) => {
 };
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+const VerifyOTP: React.FC<{
+  cate: { id: "reset" | "register"; name: string };
+}> = ({ cate }) => {
   const [onEye, setOnEye] = React.useState<boolean>(false);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -53,11 +55,7 @@ export default function SignInSide() {
           style={{ position: "relative" }}
         >
           <div className="w-full h-full absolute top-0 left-0">
-            <Image
-              src={Images.theme7}
-              alt="Fashion Valley"
-              objectFit="cover" // Ensures the image covers the grid item without stretching
-            />
+            <Image src={Images.theme2} alt="Fashion Valley" />
           </div>
         </Grid>
         <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
@@ -72,7 +70,7 @@ export default function SignInSide() {
           >
             <Avatar
               sx={{
-                m: 0,
+                m: 2,
                 width: "50px",
                 height: "50px",
                 bgcolor: "secondary.main",
@@ -80,8 +78,10 @@ export default function SignInSide() {
             >
               <Image src={Images.theme8} alt="Fashion Valley" />
             </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
+            <Typography component="div" variant="body2">
+              <h1 className="text-lg font-medium  x">
+                Validation for {cate.name}
+              </h1>
             </Typography>
             <Box
               component="form"
@@ -94,38 +94,11 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Email Address or Phone Number"
                 name="email"
                 autoComplete="email"
                 autoFocus
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type={`${onEye ? "text" : "password"}`}
-                id="password"
-                autoComplete="current-password"
-              />
-              <div className="flex justify-between">
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value="showOut"
-                      color="primary"
-                      onChange={(e) => setOnEye(e.target.checked)}
-                    />
-                  }
-                  label="Show password"
-                />
-              </div>
-
               <Button
                 type="submit"
                 fullWidth
@@ -136,13 +109,15 @@ export default function SignInSide() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
+                  {!(cate.id === "reset") && (
+                    <Link href="/verify/reset" variant="body2">
+                      Forgot password?
+                    </Link>
+                  )}
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link href="/login" variant="body2">
+                    Already have an account? Sign in
                   </Link>
                 </Grid>
               </Grid>
@@ -177,14 +152,11 @@ export default function SignInSide() {
           style={{ position: "relative" }}
         >
           <div className="w-full h-full  absolute top-0 left-0">
-            <Image
-              src={Images.theme6}
-              alt="Fashion Valley"
-              objectFit="cover" // Ensures the image covers the grid item without stretching
-            />
+            <Image src={Images.theme5} alt="Fashion Valley" />
           </div>
         </Grid>
       </Grid>
     </ThemeProvider>
   );
-}
+};
+export default VerifyOTP;

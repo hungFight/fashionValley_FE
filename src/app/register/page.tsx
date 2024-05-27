@@ -87,6 +87,7 @@ export default function SignUp() {
                     id="userName"
                     label="User Name"
                     name="userName"
+                    value="Hung"
                     autoComplete="family-name"
                   />
                 </Grid>
