@@ -41,7 +41,7 @@ const VerifyOTP: React.FC<{
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log(data.get("email"), valuePhone);
-    if (phoneEmail) {
+    if (!phoneEmail) {
       const res = await verifyAPI.sendSMS(valuePhone);
     }
   };
@@ -119,6 +119,8 @@ const VerifyOTP: React.FC<{
                 <PhoneInput
                   country={"vn"}
                   isValid={(value, country: any, countries: any) => {
+                    console.log(country);
+
                     if (
                       countries.some((cou: any) => value.match(cou.countryCode))
                     )
