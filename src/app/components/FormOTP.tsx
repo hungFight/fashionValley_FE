@@ -17,6 +17,11 @@ import Image from "next/image";
 import { CheckboxProps, Col, Row } from "antd";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { useRef } from "react";
+import verify from "../restfulAPI/verifyAPI";
+import verifyAPI from "../restfulAPI/verifyAPI";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps["onChange"] = (e) => {
@@ -27,14 +32,22 @@ const defaultTheme = createTheme();
 const VerifyOTP: React.FC<{
   cate: { id: "reset" | "register"; name: string };
 }> = ({ cate }) => {
-  const [onEye, setOnEye] = React.useState<boolean>(false);
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const [phoneEmail, setPhoneEmail] = React.useState<boolean>(true); // true is email
+  const [valuePhone, setValuePhone] = React.useState("");
+  const [valueEmail, setValueEmail] = React.useState("");
+
+  const valid = useRef<boolean>(false);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    console.log(data.get("email"), valuePhone);
+    if (phoneEmail) {
+      const res = await verifyAPI.sendSMS(valuePhone);
+    }
+  };
+
+  const handleChange = (newValue: React.SetStateAction<string>, data: any) => {
+    setValuePhone(newValue);
   };
 
   return (
@@ -89,15 +102,53 @@ const VerifyOTP: React.FC<{
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address or Phone Number"
-                name="email"
-                autoComplete="email"
-                autoFocus
+              {phoneEmail ? (
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  value={valueEmail}
+                  onChange={(e) => setValueEmail(e.target.value)}
+                />
+              ) : (
+                <PhoneInput
+                  country={"vn"}
+                  isValid={(value, country: any, countries: any) => {
+                    if (
+                      countries.some((cou: any) => value.match(cou.countryCode))
+                    )
+                      return true;
+                    return false;
+                  }}
+                  inputStyle={{
+                    width: "100%",
+                    paddingLeft: "58px",
+                    height: "100%",
+                  }}
+                  containerStyle={{ height: "50px" }}
+                  buttonStyle={{
+                    width: "50px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                  value={valuePhone}
+                  onChange={handleChange}
+                />
+              )}
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value="showOut"
+                    color="primary"
+                    onChange={(e) => setPhoneEmail(!e.target.checked)}
+                  />
+                }
+                label="Phone number"
               />
               <Button
                 type="submit"
@@ -105,7 +156,7 @@ const VerifyOTP: React.FC<{
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Get OTP code
               </Button>
               <Grid container>
                 <Grid item xs>
