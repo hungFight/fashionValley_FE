@@ -1,8 +1,10 @@
-import * as React from "react";
-
-import VerifyOTP from "@/app/components/FormOTP";
+import * as React from 'react';
+import VerifyOTP from '@/app/components/FormOTP';
+import { cookies } from 'next/headers';
 
 const VerifyReset = () => {
-  return <VerifyOTP cate={{ id: "reset", name: "Reset password" }} />;
+    const cookieStore = cookies();
+    const asdf_: any = cookieStore.get('asdf_');
+    return <VerifyOTP cate={{ id: 'reset', name: 'Reset password' }} asdf_={asdf_?.value ? JSON.parse(asdf_.value) : undefined} />;
 };
 export default VerifyReset;
