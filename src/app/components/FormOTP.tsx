@@ -32,22 +32,37 @@ const defaultTheme = createTheme();
 const VerifyOTP: React.FC<{
   cate: { id: "reset" | "register"; name: string };
 }> = ({ cate }) => {
+  const [verify, setVerify] = React.useState<string>("ok"); // phone or email
+  const [code, setCode] = React.useState<string>("");
+
   const [phoneEmail, setPhoneEmail] = React.useState<boolean>(true); // true is email
   const [valuePhone, setValuePhone] = React.useState("");
   const [valueEmail, setValueEmail] = React.useState("");
 
-  const valid = useRef<boolean>(false);
+  const [valid, setValid] = React.useState<{ code: boolean }>({ code: false });
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data.get("email"), valuePhone);
-    if (!phoneEmail) {
-      const res = await verifyAPI.sendSMS(valuePhone);
+    console.log(data.get("code"), valuePhone);
+    if (verify) {
+      if (code.length < 6 || code.length > 6)
+        setValid((pre) => ({ ...pre, code: true }));
+      console.log(code);
+    } else {
+      if (!phoneEmail) {
+        const res = await verifyAPI.sendSMS(valuePhone);
+        if (res) {
+          setVerify(res);
+        }
+      }
     }
   };
 
   const handleChange = (newValue: React.SetStateAction<string>, data: any) => {
     setValuePhone(newValue);
+  };
+  const handleCode = (e: any) => {
+    if (e.target.value.length < 7) setCode(e.target.value);
   };
 
   return (
@@ -102,7 +117,23 @@ const VerifyOTP: React.FC<{
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
-              {phoneEmail ? (
+              {verify ? (
+                <TextField
+                  margin="normal"
+                  error={valid.code}
+                  required
+                  fullWidth
+                  id="code"
+                  label="Enter OTP code 6 characters"
+                  name="code"
+                  autoComplete="code"
+                  autoFocus
+                  onFocus={() => setValid((pre) => ({ ...pre, code: false }))}
+                  type="number"
+                  value={code}
+                  onChange={handleCode}
+                />
+              ) : phoneEmail ? (
                 <TextField
                   margin="normal"
                   required
@@ -119,8 +150,6 @@ const VerifyOTP: React.FC<{
                 <PhoneInput
                   country={"vn"}
                   isValid={(value, country: any, countries: any) => {
-                    console.log(country);
-
                     if (
                       countries.some((cou: any) => value.match(cou.countryCode))
                     )
@@ -142,23 +171,25 @@ const VerifyOTP: React.FC<{
                   onChange={handleChange}
                 />
               )}
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    value="showOut"
-                    color="primary"
-                    onChange={(e) => setPhoneEmail(!e.target.checked)}
-                  />
-                }
-                label="Phone number"
-              />
+              {!verify && (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value="showOut"
+                      color="primary"
+                      onChange={(e) => setPhoneEmail(!e.target.checked)}
+                    />
+                  }
+                  label="Phone number"
+                />
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Get OTP code
+                {verify ? "SEND OTP code" : "Get OTP code"}
               </Button>
               <Grid container>
                 <Grid item xs>

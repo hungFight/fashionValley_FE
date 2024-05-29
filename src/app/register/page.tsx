@@ -20,14 +20,59 @@ import Images from "../assets/images";
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [onEye, setOnEye] = React.useState<boolean>(false);
+  const [extra, setExtra] = React.useState<boolean>(false);
+  const [valid, setValid] = React.useState<{
+    email: boolean;
+    password: boolean;
+    reTypePassword: boolean;
+    userName: boolean;
+    phone: boolean;
+    subPassword: boolean;
+  }>({
+    email: false,
+    password: false,
+    userName: false,
+    reTypePassword: false,
+    phone: false,
+    subPassword: false,
+  });
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const fullData = {
+      email: !data.get("email"),
+      password: !data.get("password"),
+      reTypePassword:
+        !data.get("reType") || data.get("reType") !== data.get("password"),
+      userName: !data.get("userName"),
+      phone: !data.get("phone"),
+      subPassword: !data.get("subPassword"),
+    };
+
+    if (
+      !fullData.email &&
+      !fullData.phone &&
+      !fullData.password &&
+      !fullData.userName &&
+      !fullData.reTypePassword &&
+      data.get("reType") === data.get("password")
+    ) {
+      const fullData = {
+        email: data.get("email"),
+        password: data.get("password"),
+        reTypePassword:
+          data.get("reType") || data.get("reType") !== data.get("password"),
+        userName: data.get("userName"),
+        phone: data.get("phone"),
+        subPassword: data.get("subPassword"),
+      };
+      console.log(fullData);
+    } else {
+      setValid(fullData);
+    }
   };
+  console.log(valid);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -83,27 +128,25 @@ export default function SignUp() {
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
+                    error={valid.userName}
+                    onFocus={() =>
+                      setValid((pre) => ({ ...pre, userName: false }))
+                    }
                     fullWidth
                     id="userName"
                     label="User Name"
                     name="userName"
                     value="Hung"
                     autoComplete="family-name"
-                  />
+                  />{" "}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
-                    fullWidth
-                    id="Name"
-                    label="Name"
-                    name="name"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
+                    error={valid.phone}
+                    onFocus={() =>
+                      setValid((pre) => ({ ...pre, phone: false }))
+                    }
                     fullWidth
                     id="phone"
                     label="Phone Number"
@@ -115,6 +158,10 @@ export default function SignUp() {
                 <Grid item xs={12}>
                   <TextField
                     required
+                    error={valid.email}
+                    onFocus={() =>
+                      setValid((pre) => ({ ...pre, email: false }))
+                    }
                     fullWidth
                     id="email"
                     label="Email"
@@ -125,13 +172,72 @@ export default function SignUp() {
                 <Grid item xs={12}>
                   <TextField
                     required
+                    error={valid.password}
+                    onFocus={() =>
+                      setValid((pre) => ({ ...pre, password: false }))
+                    }
                     fullWidth
                     name="password"
                     label="Password"
-                    type="password"
+                    type={`${onEye ? "text" : "password"}`}
                     id="password"
                     autoComplete="new-password"
                   />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    error={valid.reTypePassword}
+                    onFocus={() =>
+                      setValid((pre) => ({ ...pre, reTypePassword: false }))
+                    }
+                    fullWidth
+                    name="reType"
+                    label="Enter password again"
+                    type={`${onEye ? "text" : "password"}`}
+                    id="reType"
+                    autoComplete="old-password"
+                  />
+                </Grid>
+                {extra && (
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      error={valid.subPassword}
+                      onFocus={() =>
+                        setValid((pre) => ({ ...pre, subPassword: false }))
+                      }
+                      name="subPassword"
+                      label="Enter extra password"
+                      type={`${onEye ? "text" : "password"}`}
+                      id="reType"
+                      autoComplete="extra-password"
+                    />
+                  </Grid>
+                )}
+                <Grid item xs={12}>
+                  <div className="flex justify-between">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="subPassword"
+                          color="primary"
+                          onChange={(e) => setExtra(e.target.checked)}
+                        />
+                      }
+                      label="Extra password"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          value="showOut"
+                          color="primary"
+                          onChange={(e) => setOnEye(e.target.checked)}
+                        />
+                      }
+                      label="Show password"
+                    />
+                  </div>
                 </Grid>
               </Grid>
               <Button
