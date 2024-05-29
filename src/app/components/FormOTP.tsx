@@ -23,6 +23,7 @@ import { useRef } from 'react';
 import verify from '../restfulAPI/verifyAPI';
 import verifyAPI from '../restfulAPI/verifyAPI';
 import Validation from '../utils/Validation/Validation';
+import { navigate } from '../actions';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {
@@ -58,6 +59,9 @@ const VerifyOTP: React.FC<{
             if (!Validation.validOTP(code)) setValid((pre) => ({ ...pre, code: true }));
             if (verify?.phoneEmail && Validation.validUUID(verify.id)) {
                 const res = await verifyAPI.verifyOTP({ ...verify, code });
+                if (Validation.validUUID(res)) {
+                    navigate(res);
+                }
             }
         } else {
             if (!phoneEmail) {

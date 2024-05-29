@@ -13,13 +13,13 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import Image from 'next/image';
-import Images from '../assets/images';
+import Images from '../../assets/images';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+const SignUp: React.FC<{ params: { code: string } }> = ({ params }) => {
     const [onEye, setOnEye] = React.useState<boolean>(false);
     const [extra, setExtra] = React.useState<boolean>(false);
     const [valid, setValid] = React.useState<{
@@ -267,4 +267,5 @@ export default function SignUp() {
             </Container> */}
         </ThemeProvider>
     );
-}
+};
+export default SignUp;

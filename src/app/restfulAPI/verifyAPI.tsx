@@ -12,7 +12,7 @@ class VerifyAPI {
                 return errorHandling(err);
             });
     };
-    public verifyOTP = async (value: { phoneEmail: string; id: string; code: string }) => {
+    public verifyOTP = async (value: { phoneEmail: string; id: string; code: string; status?: 'checkValid' }) => {
         return await http
             .post('/verify/OTP', { ...value })
             .then((data) => data.data)
