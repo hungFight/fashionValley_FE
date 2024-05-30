@@ -5,8 +5,9 @@ class Validation extends Error {
     public validLength(value: string, start: number, end: number): boolean {
         return value.length >= start && value.length <= end;
     }
-    public validPhoneNumber(value: string): boolean {
+    public validPhoneNumber(value: string | undefined): boolean {
         const phoneNumberRegex = /^(\+?\d{1,3})?[-.\s]?(\(?\d{1,4}\)?)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+        if (!value) return false;
         return phoneNumberRegex.test(value);
     }
     public validOTP(value: string): boolean {

@@ -22,8 +22,8 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/verify')) {
     }
 
-    return NextResponse.next();
+    // return NextResponse.next();
 }
 export const config = {
-    // matcher: ['/verify', '/register'],
+    matcher: ['/verify', '/register/:path*'],
 };

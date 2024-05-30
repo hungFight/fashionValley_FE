@@ -63,11 +63,11 @@ const VerifyOTP: React.FC<{
         if (!disable)
             if (verify) {
                 if (!Validation.validOTP(code)) setValid((pre) => ({ ...pre, code: true }));
-                if (verify?.phoneEmail && Validation.validUUID(verify.id)) {
+                if (verify?.phoneEmail && Validation.validUUID(verify.id) && Validation.validOTP(code)) {
                     const res = await verifyAPI.verifyOTP({ ...verify, code });
                     if (typeof res === 'string' && Validation.validUUID(res)) {
-                        navigate(res);
                         setDisable(true);
+                        navigate(res);
                     } else setValid((pre) => ({ ...pre, code: 'Your OTP code is invalid or expired' }));
                 }
             } else {
@@ -232,7 +232,7 @@ const VerifyOTP: React.FC<{
                                     </LoadingButton>
                                 </div>
                             )}
-                            <LoadingButton type="submit" endIcon={<SendIcon />} sx={{ mt: 1, mb: 2, width: '100%' }} loading={loading} loadingPosition="end" variant="contained">
+                            <LoadingButton type="submit" disabled={disable} endIcon={<SendIcon />} sx={{ mt: 1, mb: 2, width: '100%' }} loading={loading} loadingPosition="end" variant="contained">
                                 {verify ? 'Verify OTP code' : 'Get OTP code'}
                             </LoadingButton>
                             {!verify && (

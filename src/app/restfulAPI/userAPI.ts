@@ -3,9 +3,10 @@ import errorHandling from '../utils/errorHandling';
 import http from '../utils/http';
 
 class UserAPI {
-    public register = async (data: { userName: string; password: string; phone: string; email: string; subPassword: string }) => {
+    public register = async (data: { userName: FormDataEntryValue; password: FormDataEntryValue; account: string | undefined; subPassword?: FormDataEntryValue | null }) => {
         try {
-            const res = await http.post('user/register');
+            const res = await http.post<{ status: 0 | 1 | 2 | 3; message: string }>('user/register', data);
+            return res.data;
         } catch (error) {
             const err: any = error as AxiosError;
             return errorHandling(err);
