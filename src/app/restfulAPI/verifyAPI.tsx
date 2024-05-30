@@ -12,7 +12,16 @@ class VerifyAPI {
                 return errorHandling(err);
             });
     };
-    public verifyOTP = async (value: { phoneEmail: string; id: string; code: string; status?: 'checkValid' }) => {
+    public sendEmail = async (value: string): Promise<{ phoneEmail: string; id: string }> => {
+        return await http
+            .post('/verify/sendEmail', { value })
+            .then((data) => data.data)
+            .catch((error) => {
+                const err: any = error as AxiosError;
+                return errorHandling(err);
+            });
+    };
+    public verifyOTP = async (value: { phoneEmail: string; id: string; code: string; status?: 'checkValid' }): Promise<string | null | boolean> => {
         return await http
             .post('/verify/OTP', { ...value })
             .then((data) => data.data)

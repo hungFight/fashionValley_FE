@@ -14,12 +14,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import Image from 'next/image';
 import Images from '../../assets/images';
-
+import Cookies from 'js-cookie';
+import Validation from '@/app/utils/Validation/Validation';
+import PhoneInput from 'react-phone-input-2';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 const SignUp: React.FC<{ params: { code: string } }> = ({ params }) => {
+    const account = Cookies.get('asdf_');
+    const accountValue: { phoneEmail: string; id: String } = account ? JSON.parse(account) : account;
     const [onEye, setOnEye] = React.useState<boolean>(false);
     const [extra, setExtra] = React.useState<boolean>(false);
     const [valid, setValid] = React.useState<{
@@ -58,6 +62,7 @@ const SignUp: React.FC<{ params: { code: string } }> = ({ params }) => {
                 phone: data.get('phone'),
                 subPassword: data.get('subPassword'),
             };
+
             console.log(fullData);
         } else {
             setValid(fullData);
@@ -108,7 +113,7 @@ const SignUp: React.FC<{ params: { code: string } }> = ({ params }) => {
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
-                                <Grid item xs={12} sm={6}>
+                                <Grid item xs={12} sm={Validation.validPhoneNumber(accountValue?.phoneEmail) ? 6 : 12}>
                                     <TextField
                                         required
                                         error={valid.userName}
@@ -117,35 +122,47 @@ const SignUp: React.FC<{ params: { code: string } }> = ({ params }) => {
                                         id="userName"
                                         label="User Name"
                                         name="userName"
-                                        value="Hung"
                                         autoComplete="family-name"
                                     />{' '}
-                                </Grid>
-                                <Grid item xs={12} sm={6}>
-                                    <TextField
-                                        required
-                                        error={valid.phone}
-                                        onFocus={() => setValid((pre) => ({ ...pre, phone: false }))}
-                                        fullWidth
-                                        id="phone"
-                                        label="Phone Number"
-                                        name="phone"
-                                        autoComplete="phone"
-                                        type="number"
-                                    />
                                 </Grid>{' '}
-                                <Grid item xs={12}>
-                                    <TextField
-                                        required
-                                        error={valid.email}
-                                        onFocus={() => setValid((pre) => ({ ...pre, email: false }))}
-                                        fullWidth
-                                        id="email"
-                                        label="Email"
-                                        name="email"
-                                        autoComplete="email"
-                                    />
-                                </Grid>
+                                {!Validation.validPhoneNumber(accountValue?.phoneEmail) ? (
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            required
+                                            error={valid.email}
+                                            onFocus={() => setValid((pre) => ({ ...pre, email: false }))}
+                                            fullWidth
+                                            value={accountValue?.phoneEmail}
+                                            id="email"
+                                            name="email"
+                                            autoComplete="email"
+                                            disabled={true}
+                                        />
+                                    </Grid>
+                                ) : (
+                                    <Grid item xs={12} sm={6}>
+                                        <PhoneInput
+                                            country={'vn'}
+                                            isValid={(value, country: any, countries: any) => {
+                                                if (countries.some((cou: any) => value.match(cou.countryCode)) || !valid.phone) return true;
+                                                return false;
+                                            }}
+                                            inputStyle={{
+                                                width: '100%',
+                                                paddingLeft: '58px',
+                                                height: '100%',
+                                            }}
+                                            containerStyle={{ height: '50px' }}
+                                            buttonStyle={{
+                                                width: '50px',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                            }}
+                                            value={accountValue?.phoneEmail}
+                                            disabled={true}
+                                        />
+                                    </Grid>
+                                )}
                                 <Grid item xs={12}>
                                     <TextField
                                         required

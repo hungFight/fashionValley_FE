@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Images from '../assets/images';
 import Image from 'next/image';
-import { CheckboxProps, Col, Row } from 'antd';
+import { Button, CheckboxProps, Col, Row } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import PhoneInput from 'react-phone-input-2';
@@ -24,6 +23,8 @@ import verify from '../restfulAPI/verifyAPI';
 import verifyAPI from '../restfulAPI/verifyAPI';
 import Validation from '../utils/Validation/Validation';
 import { navigate } from '../actions';
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {
@@ -46,33 +47,49 @@ const VerifyOTP: React.FC<{
         | undefined
     >(asdf_); // phone or email
     const [code, setCode] = React.useState<string>('');
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [resend, seResend] = React.useState<number>(5);
+    const [disable, setDisable] = React.useState<boolean>(false);
 
     const [phoneEmail, setPhoneEmail] = React.useState<boolean>(true); // true is email
     const [valuePhone, setValuePhone] = React.useState('');
     const [valueEmail, setValueEmail] = React.useState('');
 
-    const [valid, setValid] = React.useState<{ code: boolean; phone: boolean }>({ code: false, phone: false });
+    const [valid, setValid] = React.useState<{ code: boolean | string; phone: boolean; email: boolean }>({ code: false, phone: false, email: false });
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget);
-        if (verify) {
-            if (!Validation.validOTP(code)) setValid((pre) => ({ ...pre, code: true }));
-            if (verify?.phoneEmail && Validation.validUUID(verify.id)) {
-                const res = await verifyAPI.verifyOTP({ ...verify, code });
-                if (Validation.validUUID(res)) {
-                    navigate(res);
+        if (!disable)
+            if (verify) {
+                if (!Validation.validOTP(code)) setValid((pre) => ({ ...pre, code: true }));
+                if (verify?.phoneEmail && Validation.validUUID(verify.id)) {
+                    const res = await verifyAPI.verifyOTP({ ...verify, code });
+                    if (typeof res === 'string' && Validation.validUUID(res)) {
+                        navigate(res);
+                        setDisable(true);
+                    } else setValid((pre) => ({ ...pre, code: 'Your OTP code is invalid or expired' }));
+                }
+            } else {
+                if (!phoneEmail) {
+                    if (Validation.validPhoneNumber(valuePhone)) {
+                        const res = await verifyAPI.sendSMS(valuePhone);
+                        if (res) {
+                            setVerify(res);
+                        }
+                    } else setValid((pre) => ({ ...pre, phone: true }));
+                } else {
+                    const email = String(data.get('email'));
+                    if (Validation.validEmail(email)) {
+                        console.log(email);
+                        const res = await verifyAPI.sendEmail(email);
+                        if (res) {
+                            setVerify(res);
+                        }
+                    } else setValid((pre) => ({ ...pre, email: true }));
                 }
             }
-        } else {
-            if (!phoneEmail) {
-                if (Validation.validPhoneNumber(valuePhone)) {
-                    const res = await verifyAPI.sendSMS(valuePhone);
-                    if (res) {
-                        setVerify(res);
-                    }
-                } else setValid((pre) => ({ ...pre, phone: true }));
-            }
-        }
+        setLoading(false);
     };
 
     const handleChange = (newValue: React.SetStateAction<string>, data: any) => {
@@ -81,6 +98,17 @@ const VerifyOTP: React.FC<{
     const handleCode = (e: any) => {
         if (e.target.value.length < 7) setCode(e.target.value);
     };
+    React.useEffect(() => {
+        let timeout: NodeJS.Timeout | null = null;
+        if (verify && resend > 0) {
+            timeout = setTimeout(() => {
+                seResend((pre) => pre - 1);
+            }, 1000);
+        }
+        return () => {
+            if (timeout) clearTimeout(timeout);
+        };
+    }, [verify, resend]);
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -125,24 +153,28 @@ const VerifyOTP: React.FC<{
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             {verify ? (
-                                <TextField
-                                    margin="normal"
-                                    error={valid.code}
-                                    required
-                                    fullWidth
-                                    id="code"
-                                    label="Enter OTP code 6 characters"
-                                    name="code"
-                                    autoComplete="code"
-                                    autoFocus
-                                    onFocus={() => setValid((pre) => ({ ...pre, code: false }))}
-                                    type="number"
-                                    value={code}
-                                    onChange={handleCode}
-                                />
+                                <div>
+                                    <TextField
+                                        margin="normal"
+                                        error={!!valid.code}
+                                        required
+                                        fullWidth
+                                        id="code"
+                                        label="Enter OTP code 6 characters"
+                                        name="code"
+                                        autoComplete="code"
+                                        autoFocus
+                                        onFocus={() => setValid((pre) => ({ ...pre, code: false }))}
+                                        type="number"
+                                        value={code}
+                                        onChange={handleCode}
+                                    />
+                                    {typeof valid.code === 'string' && <p className="text-[#ff6f6f] text-[11px] mt-[-8px]">{valid.code}</p>}
+                                </div>
                             ) : phoneEmail ? (
                                 <TextField
                                     margin="normal"
+                                    error={valid.email}
                                     required
                                     fullWidth
                                     id="email"
@@ -180,9 +212,29 @@ const VerifyOTP: React.FC<{
                                 </div>
                             )}
                             {!verify && <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setPhoneEmail(!e.target.checked)} />} label="Phone number" />}
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 1, mb: 2 }}>
-                                {verify ? 'SEND OTP code' : 'Get OTP code'}
-                            </Button>
+                            {verify && (
+                                <div className="flex justify-end items-center">
+                                    {resend > 0 && <p className="text-[14px]">{resend}</p>}
+                                    <LoadingButton
+                                        disabled={resend > 0}
+                                        type="button"
+                                        onClick={() => {
+                                            setVerify(undefined);
+                                            seResend(5);
+                                        }}
+                                        endIcon={<SendIcon />}
+                                        sx={{ mt: 1, mb: 1, ml: 1, fontSize: '12px' }}
+                                        // loading={loading}
+                                        loadingPosition="end"
+                                        variant="contained"
+                                    >
+                                        RESEND
+                                    </LoadingButton>
+                                </div>
+                            )}
+                            <LoadingButton type="submit" endIcon={<SendIcon />} sx={{ mt: 1, mb: 2, width: '100%' }} loading={loading} loadingPosition="end" variant="contained">
+                                {verify ? 'Verify OTP code' : 'Get OTP code'}
+                            </LoadingButton>
                             {!verify && (
                                 <Grid container>
                                     <Grid item>
