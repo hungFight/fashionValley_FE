@@ -17,6 +17,11 @@ import Image from 'next/image';
 import { CheckboxProps, Col, Row } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import SendIcon from '@mui/icons-material/Send';
+import { LoadingButton } from '@mui/lab';
+import Validation from '../utils/Validation/Validation';
+import userAPI from '../restfulAPI/userAPI';
+import { navigate } from '../actions';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {
@@ -25,14 +30,36 @@ const onChange: CheckboxProps['onChange'] = (e) => {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [err, setErr] = React.useState<{ account: boolean; pass: boolean; status: boolean; message: string; success: boolean }>({
+        account: false,
+        pass: false,
+        status: false,
+        message: '',
+        success: false,
+    });
     const [onEye, setOnEye] = React.useState<boolean>(false);
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
+        setLoading(true);
+        const data = new FormData(event.currentTarget),
+            account: any = data.get('account'),
+            password: any = data.get('password');
+        if (!account) setErr((pre) => ({ ...pre, account: true }));
+        if (!password || !Validation.validLength(password, 6, 100)) setErr((pre) => ({ ...pre, pass: true }));
+        if (account && password) {
+            const res = await userAPI.login(account, password);
+            if (res?.status === 200) {
+                setErr((pre) => ({ ...pre, status: false, message: res.message, success: true }));
+                navigate('');
+            } else if (res?.status === 300) setErr((pre) => ({ ...pre, status: true, message: res.message }));
+            else setErr((pre) => ({ ...pre, status: true, message: 'Encounter error!. Please try again later' }));
+        }
         console.log({
             email: data.get('email'),
             password: data.get('password'),
         });
+        setLoading(false);
     };
 
     return (
@@ -50,11 +77,7 @@ export default function SignInSide() {
                     style={{ position: 'relative' }}
                 >
                     <div className="w-full h-full absolute top-0 left-0">
-                        <Image
-                            src={Images.theme7}
-                            alt="Fashion Valley"
-                            objectFit="cover" // Ensures the image covers the grid item without stretching
-                        />
+                        <Image src={Images.theme7} alt="Fashion Valley" />
                     </div>
                 </Grid>
                 <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
@@ -81,15 +104,37 @@ export default function SignInSide() {
                             Sign in
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
-                            <TextField margin="normal" required fullWidth name="password" label="Password" type={`${onEye ? 'text' : 'password'}`} id="password" autoComplete="current-password" />
+                            <TextField
+                                margin="normal"
+                                error={err.account}
+                                required
+                                fullWidth
+                                id="account"
+                                label="Enter your account"
+                                name="account"
+                                autoComplete="account"
+                                autoFocus
+                                onFocus={() => setErr((pre) => ({ ...pre, account: false }))}
+                            />
+                            <TextField
+                                margin="normal"
+                                error={err.pass}
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type={`${onEye ? 'text' : 'password'}`}
+                                id="password"
+                                autoComplete="current-password"
+                                onFocus={() => setErr((pre) => ({ ...pre, pass: false }))}
+                            />
                             <div className="flex justify-end">
                                 <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setOnEye(e.target.checked)} />} label="Show password" />
                             </div>
-
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            {err.message && <p className={`text-[13px] ${err.status ? 'text-red-500' : 'text-green-500'}`}>{err.message}</p>}
+                            <LoadingButton type="submit" loading={loading} disabled={err.success} endIcon={<SendIcon />} variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }} loadingPosition="end">
                                 Sign In
-                            </Button>
+                            </LoadingButton>
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="/verify/reset" variant="body2">

@@ -19,12 +19,15 @@ import PhoneInput from 'react-phone-input-2';
 import userAPI from '@/app/restfulAPI/userAPI';
 import Images from '../assets/images';
 import { MuiTelInput } from 'mui-tel-input';
+import SendIcon from '@mui/icons-material/Send';
+import { LoadingButton } from '@mui/lab';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
 const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id: String } }> = ({ code, accountValue }) => {
     const [status, setStatus] = React.useState<{ code: boolean; message: string } | undefined>();
+    const [loading, setLoading] = React.useState<boolean>(false);
     const [onEye, setOnEye] = React.useState<boolean>(false);
     const [extra, setExtra] = React.useState<boolean>(false);
     const [valid, setValid] = React.useState<{
@@ -42,6 +45,7 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
     });
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget),
             password: any = data.get('password'),
             userName: any = data.get('userName'),
@@ -68,12 +72,13 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
         ) {
             const res = await userAPI.register({ userName, password, account, subPassword, code });
             if (res)
-                if (res?.status === 1) setStatus({ code: true, message: res.message });
+                if (res?.status === 200) setStatus({ code: true, message: res.message });
                 else setStatus({ code: false, message: res.message });
             else setStatus({ code: false, message: 'create failed!' });
         } else {
             setValid(fullData);
         }
+        setLoading(false);
     };
     console.log(valid, accountValue, 'accountValue');
 
@@ -219,6 +224,18 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
                                     </div>
                                 </Grid>
                             </Grid>
+                            <LoadingButton
+                                disabled={status?.code}
+                                type="submit"
+                                loading={loading}
+                                endIcon={<SendIcon />}
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                // loading={loading}
+                                loadingPosition="end"
+                            >
+                                Sign Up
+                            </LoadingButton>
                             <Button type="submit" disabled={status?.code} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                                 Sign Up
                             </Button>

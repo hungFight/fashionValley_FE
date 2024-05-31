@@ -184,6 +184,7 @@ const VerifyOTP: React.FC<{
                                     name="email"
                                     autoComplete="email"
                                     autoFocus
+                                    onFocus={() => setValid((pre) => ({ ...pre, email: false }))}
                                     value={valueEmail}
                                     onChange={(e) => setValueEmail(e.target.value)}
                                 />

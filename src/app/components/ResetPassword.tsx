@@ -18,17 +18,21 @@ import { CheckboxProps, Col, Row } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import Validation from '../utils/Validation/Validation';
+import SendIcon from '@mui/icons-material/Send';
 import { MuiTelInput } from 'mui-tel-input';
 import userAPI from '../restfulAPI/userAPI';
+import { LoadingButton } from '@mui/lab';
 const defaultTheme = createTheme();
 
 const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: string; id: String } }> = ({ code, accountValue }) => {
     const [status, setStatus] = React.useState<{ code: boolean; message: string; disable: boolean } | undefined>();
+    const [loading, setLoading] = React.useState<boolean>(false);
     const [onEye, setOnEye] = React.useState<boolean>(false);
     const [subPass, setSubPass] = React.useState<boolean>(false);
     const [err, setErr] = React.useState<{ account: boolean; pass: boolean; re: boolean }>({ account: false, pass: false, re: false });
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget),
             reType = data.get('reType'),
             password: any = data.get('password');
@@ -38,11 +42,12 @@ const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: strin
             if (Validation.validPhoneNumber(accountValue?.phoneEmail) || Validation.validEmail(accountValue?.phoneEmail)) {
                 const res = await userAPI.resetPassword({ account: accountValue?.phoneEmail, password, subPass, code });
                 if (res)
-                    if (res?.status === 1) setStatus({ code: true, message: res.message, disable: true });
+                    if (res?.status === 200) setStatus({ code: true, message: res.message, disable: true });
                     else setStatus({ code: false, message: res.message, disable: false });
                 else setStatus({ code: false, message: 'create failed!', disable: false });
             } else setErr((pre) => ({ ...pre, account: true }));
         }
+        setLoading(false);
     };
 
     return (
@@ -136,10 +141,18 @@ const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: strin
                                 <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setSubPass(e.target.checked)} />} label="Change Extra password" />
                                 <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setOnEye(e.target.checked)} />} label="Show password" />
                             </div>
-
-                            <Button type="submit" disabled={status?.disable} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <LoadingButton
+                                disabled={status?.code}
+                                type="submit"
+                                loading={loading}
+                                endIcon={<SendIcon />}
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2, width: '100%' }}
+                                // loading={loading}
+                                loadingPosition="end"
+                            >
                                 Save your innovation
-                            </Button>
+                            </LoadingButton>
                             {status && <p className={`text-[13px] mt-[-8px] ${status.code ? 'text-green-500' : 'text-red-500'}`}>{status?.message}</p>}
                             <Grid container>
                                 <Grid item xs>

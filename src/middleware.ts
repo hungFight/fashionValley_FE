@@ -25,12 +25,10 @@ export async function middleware(req: NextRequest) {
         // if (code) return NextResponse.next();
         if (register) return NextResponse.redirect(new URL('/verify/register', req.url));
         return NextResponse.redirect(new URL('/verify/reset', req.url));
+    } else {
+        return NextResponse.next();
     }
-    if (req.nextUrl.pathname.startsWith('/verify')) {
-    }
-
-    // return NextResponse.next();
 }
 export const config = {
-    matcher: ['/verify', '/register/:path*', '/reset/:path*'],
+    matcher: ['/register/:path*', '/reset/:path*'],
 };
