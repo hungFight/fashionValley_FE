@@ -66,8 +66,10 @@ const VerifyOTP: React.FC<{
                 if (verify?.phoneEmail && Validation.validUUID(verify.id) && Validation.validOTP(code)) {
                     const res = await verifyAPI.verifyOTP({ ...verify, code });
                     if (typeof res === 'string' && Validation.validUUID(res)) {
+                        if (cate.id === 'register') {
+                            navigate('register', res);
+                        } else navigate('reset', res);
                         setDisable(true);
-                        navigate(res);
                     } else setValid((pre) => ({ ...pre, code: 'Your OTP code is invalid or expired' }));
                 }
             } else {
@@ -118,17 +120,17 @@ const VerifyOTP: React.FC<{
                     item
                     xs={false}
                     sm={4}
-                    md={4}
+                    md={7}
                     sx={{
                         backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
                     }}
                     style={{ position: 'relative' }}
                 >
                     <div className="w-full h-full absolute top-0 left-0">
-                        <Image src={Images.theme2} alt="Fashion Valley" />
+                        <Image src={Images.theme} alt="Fashion Valley" />
                     </div>
                 </Grid>
-                <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square>
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
                         sx={{
                             my: 8,
@@ -232,7 +234,15 @@ const VerifyOTP: React.FC<{
                                     </LoadingButton>
                                 </div>
                             )}
-                            <LoadingButton type="submit" disabled={disable} endIcon={<SendIcon />} sx={{ mt: 1, mb: 2, width: '100%' }} loading={loading} loadingPosition="end" variant="contained">
+                            <LoadingButton
+                                type="submit"
+                                disabled={disable}
+                                endIcon={<SendIcon />}
+                                sx={{ mt: 1, mb: 2, width: '100%' }}
+                                loading={loading || disable}
+                                loadingPosition="end"
+                                variant="contained"
+                            >
                                 {verify ? 'Verify OTP code' : 'Get OTP code'}
                             </LoadingButton>
                             {!verify && (
@@ -260,20 +270,6 @@ const VerifyOTP: React.FC<{
                             </div>
                         </Box>
                     </Box>
-                </Grid>
-                <Grid
-                    item
-                    xs={false}
-                    sm={2}
-                    md={4}
-                    sx={{
-                        backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
-                    }}
-                    style={{ position: 'relative' }}
-                >
-                    <div className="w-full h-full  absolute top-0 left-0">
-                        <Image src={Images.theme5} alt="Fashion Valley" />
-                    </div>
                 </Grid>
             </Grid>
         </ThemeProvider>

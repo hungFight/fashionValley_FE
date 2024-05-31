@@ -43,21 +43,30 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget),
-            password = data.get('password'),
-            userName = data.get('userName'),
+            password: any = data.get('password'),
+            userName: any = data.get('userName'),
             account = accountValue?.phoneEmail,
             subPassword = data.get('subPassword');
         const fullData = {
             account: !account,
-            password: !password,
+            password: !password || !Validation.validLength(password, 6, 100),
             reTypePassword: !data.get('reType') || data.get('reType') !== password,
-            userName: !userName,
-            subPassword: !subPassword,
+            userName: !userName || !Validation.validLength(userName, 6, 50),
+            subPassword: !subPassword || password === subPassword,
         };
         console.log(fullData, 'fullData', account, userName, password, subPassword);
-
-        if (account && password && userName && !fullData.account && !fullData.password && !fullData.userName && !fullData.reTypePassword && data.get('reType') === password) {
-            const res = await userAPI.register({ userName, password, account, subPassword });
+        if (
+            ((subPassword && password !== subPassword) || !subPassword) &&
+            account &&
+            password &&
+            userName &&
+            !fullData.account &&
+            !fullData.password &&
+            !fullData.userName &&
+            !fullData.reTypePassword &&
+            data.get('reType') === password
+        ) {
+            const res = await userAPI.register({ userName, password, account, subPassword, code });
             if (res)
                 if (res?.status === 1) setStatus({ code: true, message: res.message });
                 else setStatus({ code: false, message: res.message });
@@ -132,6 +141,7 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
                                             fullWidth
                                             value={accountValue?.phoneEmail}
                                             id="email"
+                                            label="Email"
                                             name="email"
                                             autoComplete="email"
                                             disabled={true}
@@ -195,7 +205,7 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
                                             error={valid.subPassword}
                                             onFocus={() => setValid((pre) => ({ ...pre, subPassword: false }))}
                                             name="subPassword"
-                                            label="Enter extra password"
+                                            label={valid.subPassword ? 'Extra password must be different with your password' : 'Enter extra password'}
                                             type={`${onEye ? 'text' : 'password'}`}
                                             id="reType"
                                             autoComplete="extra-password"

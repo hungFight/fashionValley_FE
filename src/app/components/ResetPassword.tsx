@@ -17,22 +17,32 @@ import Image from 'next/image';
 import { CheckboxProps, Col, Row } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const onChange: CheckboxProps['onChange'] = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-};
+import Validation from '../utils/Validation/Validation';
+import { MuiTelInput } from 'mui-tel-input';
+import userAPI from '../restfulAPI/userAPI';
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: string; id: String } }> = ({ code, accountValue }) => {
+    const [status, setStatus] = React.useState<{ code: boolean; message: string; disable: boolean } | undefined>();
     const [onEye, setOnEye] = React.useState<boolean>(false);
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const [subPass, setSubPass] = React.useState<boolean>(false);
+    const [err, setErr] = React.useState<{ account: boolean; pass: boolean; re: boolean }>({ account: false, pass: false, re: false });
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const data = new FormData(event.currentTarget),
+            reType = data.get('reType'),
+            password: any = data.get('password');
+        if (!reType || reType !== password) setErr((pre) => ({ ...pre, re: true }));
+        if (!password || !Validation.validLength(password, 6, 100)) setErr((pre) => ({ ...pre, pass: true }));
+        if (accountValue?.phoneEmail && password && reType === password && !status?.disable) {
+            if (Validation.validPhoneNumber(accountValue?.phoneEmail) || Validation.validEmail(accountValue?.phoneEmail)) {
+                const res = await userAPI.resetPassword({ account: accountValue?.phoneEmail, password, subPass, code });
+                if (res)
+                    if (res?.status === 1) setStatus({ code: true, message: res.message, disable: true });
+                    else setStatus({ code: false, message: res.message, disable: false });
+                else setStatus({ code: false, message: 'create failed!', disable: false });
+            } else setErr((pre) => ({ ...pre, account: true }));
+        }
     };
 
     return (
@@ -77,19 +87,60 @@ export default function SignInSide() {
                         >
                             <Image src={Images.theme8} alt="Fashion Valley" />
                         </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
+                        <Typography component="h5" variant="h5">
+                            Reset your password
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-                            <TextField margin="normal" required fullWidth id="email" label="Email Address" name="email" autoComplete="email" autoFocus />
-                            <TextField margin="normal" required fullWidth name="password" label="Password" type={`${onEye ? 'text' : 'password'}`} id="password" autoComplete="current-password" />
-                            <div className="flex justify-end">
+                            {!Validation.validPhoneNumber(accountValue?.phoneEmail) ? (
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    error={err.account}
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    disabled={true}
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    value={accountValue?.phoneEmail}
+                                />
+                            ) : (
+                                <MuiTelInput value={accountValue?.phoneEmail} error={err.account} defaultCountry="VN" disabled={true} />
+                            )}
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                error={err.pass}
+                                name="password"
+                                label={subPass ? 'Extra password' : 'Password'}
+                                type={`${onEye ? 'text' : 'password'}`}
+                                onFocus={() => setErr((pre) => ({ ...pre, pass: false }))}
+                                id="password"
+                                autoComplete="current-password"
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                error={err.re}
+                                fullWidth
+                                name="reType"
+                                label={subPass ? 'Enter extra password again' : 'Enter password again'}
+                                type={`${onEye ? 'text' : 'password'}`}
+                                onFocus={() => setErr((pre) => ({ ...pre, re: false }))}
+                                id="reType"
+                                autoComplete="current-password"
+                            />
+                            <div className="flex justify-between">
+                                <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setSubPass(e.target.checked)} />} label="Change Extra password" />
                                 <FormControlLabel control={<Checkbox value="showOut" color="primary" onChange={(e) => setOnEye(e.target.checked)} />} label="Show password" />
                             </div>
 
-                            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                Sign In
+                            <Button type="submit" disabled={status?.disable} fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                Save your innovation
                             </Button>
+                            {status && <p className={`text-[13px] mt-[-8px] ${status.code ? 'text-green-500' : 'text-red-500'}`}>{status?.message}</p>}
                             <Grid container>
                                 <Grid item xs>
                                     <Link href="/verify/reset" variant="body2">
@@ -130,14 +181,12 @@ export default function SignInSide() {
                     style={{ position: 'relative' }}
                 >
                     <div className="w-full h-full  absolute top-0 left-0">
-                        <Image
-                            src={Images.theme6}
-                            alt="Fashion Valley"
-                            objectFit="cover" // Ensures the image covers the grid item without stretching
-                        />
+                        <Image src={Images.theme6} alt="Fashion Valley" />
                     </div>
                 </Grid>
             </Grid>
         </ThemeProvider>
     );
-}
+};
+
+export default ResetPassword;
