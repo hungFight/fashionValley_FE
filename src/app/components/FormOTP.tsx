@@ -148,7 +148,7 @@ const VerifyOTP: React.FC<{
                                 bgcolor: 'secondary.main',
                             }}
                         >
-                            <Image src={Images.theme8} alt="Fashion Valley" />
+                            <Image src={Images.logo} alt="Fashion Valley" />
                         </Avatar>
                         <Typography component="div" variant="body2">
                             <h1 className="text-lg font-medium  x">Validation for {cate.name}</h1>

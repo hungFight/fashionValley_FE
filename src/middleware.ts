@@ -3,9 +3,14 @@ import Validation from './app/utils/Validation/Validation';
 import http from './app/utils/http';
 import verifyAPI from './app/restfulAPI/verifyAPI';
 import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './app/api/auth/[...nextauth]/route';
 export async function middleware(req: NextRequest) {
-    if (req.nextUrl.pathname.startsWith('/register') || req.nextUrl.pathname.startsWith('/reset')) {
-        // return NextResponse.rewrite(new URL('/reset/754', req.url));
+    if (req.nextUrl.pathname.startsWith('/login')) {
+        // const data: { user: { name: string; email: string; image: string } } | null = await getServerSession(authOptions);
+        if (req.cookies.get('next-auth.session-token')) return NextResponse.redirect(new URL('/', req.url));
+        else return NextResponse.next();
+    } else if (req.nextUrl.pathname.startsWith('/register') || req.nextUrl.pathname.startsWith('/reset')) {
         const val = req.cookies.get('asdf_')?.value;
         const res: { phoneEmail: string; id: string; key?: string } | undefined = val ? JSON.parse(val) : undefined;
         const register = req.nextUrl.pathname.split('/register/')[1];
@@ -22,13 +27,15 @@ export async function middleware(req: NextRequest) {
                 if (check === true) return NextResponse.next();
             }
         }
-        // if (code) return NextResponse.next();
         if (register) return NextResponse.redirect(new URL('/verify/register', req.url));
-        return NextResponse.redirect(new URL('/verify/reset', req.url));
+        return NextResponse.rewrite(new URL('/verify/reset', req.url));
     } else {
-        return NextResponse.next();
+        console.log('come here');
+
+        if (req.cookies.get('next-auth.session-token')) return NextResponse.next();
+        return NextResponse.rewrite(new URL('/login', req.url));
     }
 }
 export const config = {
-    matcher: ['/register/:path*', '/reset/:path*'],
+    matcher: ['/register/:path*', '/reset/:path*', '/login'],
 };

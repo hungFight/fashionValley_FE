@@ -1,7 +1,6 @@
 'use client';
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -14,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Images from '../assets/images';
 import Image from 'next/image';
-import { CheckboxProps, Col, Row } from 'antd';
+import { CheckboxProps } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import SendIcon from '@mui/icons-material/Send';
@@ -22,6 +21,7 @@ import { LoadingButton } from '@mui/lab';
 import Validation from '../utils/Validation/Validation';
 import userAPI from '../restfulAPI/userAPI';
 import { navigate } from '../actions';
+import { signIn } from 'next-auth/react';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {
@@ -61,7 +61,11 @@ export default function SignInSide() {
         });
         setLoading(false);
     };
-
+    const handleSignInFacebook = async () => {
+        await signIn('facebook', {
+            callbackUrl: window.location.origin,
+        });
+    };
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
@@ -98,7 +102,7 @@ export default function SignInSide() {
                                 bgcolor: 'secondary.main',
                             }}
                         >
-                            <Image src={Images.theme8} alt="Fashion Valley" />
+                            <Image src={Images.logo} alt="Fashion Valley" />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
@@ -150,7 +154,7 @@ export default function SignInSide() {
                             <div className="w-full mt-7 flex justify-center flex-wrap">
                                 <p>Sign in with your other accounts</p>
                                 <div className="w-full mt-7 flex justify-center">
-                                    <div className="text-[35px] mr-3 text-[#3333ff] cursor-pointer">
+                                    <div className="text-[35px] mr-3 text-[#3333ff] cursor-pointer" onClick={handleSignInFacebook}>
                                         <FaFacebook />
                                     </div>
                                     <div className="text-[38px] mr-3 cursor-pointer">
