@@ -6,6 +6,7 @@ import Header from './components/Header';
 import StyledComponentsRegistry from '../../lib/registry';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/route';
+import Drawer from './components/Drawer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,8 +28,9 @@ export default async function RootLayout({
             <body className={inter.className}>
                 <AuthSessionProvider>
                     <StyledComponentsRegistry>
-                        <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-[#1e1e1e]">
+                        <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-[#1e1e1e] text-[#dcdcdc] pt-[55px]">
                             {data?.user && <Header user={data.user} />}
+                            <Drawer />
                             {children}
                         </div>
                     </StyledComponentsRegistry>
