@@ -31,7 +31,7 @@ export default async function RootLayout({
                         <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-[#1e1e1e] text-[#dcdcdc] pt-[55px]">
                             {data?.user && <Header user={data.user} />}
                             <Drawer />
-                            <div className="h-[90%] pl-[51px]">{children}</div>
+                            <div className="h-[92vh] pl-[51px]">{children}</div>
                         </div>
                     </StyledComponentsRegistry>
                 </AuthSessionProvider>

@@ -12,3 +12,8 @@ export const Links = styled(Link)<{ $css?: string; $width?: string; $height?: st
     height: ${(props) => props.$height};
     ${(props) => props.$css};
 `;
+export const H3 = styled.h3<{ $css?: string; $width?: string; $height?: string }>`
+    width: ${(props) => props.$width};
+    height: ${(props) => props.$height};
+    ${(props) => props.$css};
+`;
