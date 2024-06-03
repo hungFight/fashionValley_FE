@@ -8,6 +8,8 @@ import theme6 from './theme6.jpg';
 import theme7 from './theme7.jpg';
 import logo from './logo.jpeg';
 import theme9 from './theme9.jpg';
+import voucher from './voucher.png';
+import service from './service.png';
 
 const Images = {
     theme1,
@@ -20,5 +22,7 @@ const Images = {
     theme7,
     logo,
     theme9,
+    voucher,
+    service,
 };
 export default Images;

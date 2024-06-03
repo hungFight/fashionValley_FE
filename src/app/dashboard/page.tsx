@@ -20,7 +20,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Deposits from '../components/Dashboard/Deposits';
 import Chart from '../components/Dashboard/Chart';
-import { mainListItems, secondaryListItems } from '../components/Dashboard/listitems';
+import { mainListItems, secondaryListItems } from '../components/Dashboard/Listitems';
 
 function Copyright(props: any) {
     return (
