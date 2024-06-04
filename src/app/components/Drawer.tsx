@@ -28,7 +28,7 @@ const Drawer = () => {
     console.log(onTab);
 
     return (
-        <Div className="w-fit fixed px-3  h-[92vh] shadow-[0_0_4px_#0a0a0a] bg-[#272727]" $css={`${!onTab ? 'width: 50px; padding: 0' : ''}`}>
+        <Div className="w-fit fixed px-3 z-50 h-[92vh] shadow-[0_0_4px_#0a0a0a] bg-[#272727]" $css={`${!onTab ? 'width: 50px; padding: 0' : ''}`}>
             <Div className="w-fit text-end" $css={`.onTab{height: 122px;.iconTurn{transform: rotate(180deg);}}; ${!onTab ? 'width: 100%; text-align: center;' : ''}`}>
                 <Switch
                     {...label}
