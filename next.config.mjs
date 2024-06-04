@@ -4,6 +4,8 @@ const nextConfig = {
         SERVER_FASHION: process.env.SERVER_FASHION
     }, experimental: {
         forceSwcTransforms: true,
+    }, images: {
+        domains: ['richardscojewellery.com'],
     },
     compiler: {
         styledComponents: true
