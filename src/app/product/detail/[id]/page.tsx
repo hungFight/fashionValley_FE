@@ -34,25 +34,25 @@ const page: React.FC<{ params: { id: string } }> = ({ params }) => {
         <div className="flex w-full flex-wrap p-2">
             <div className="w-full flex items-center y-2 mb-5 mt-3">
                 {index.map((d, ind) => (
-                    <div key={d.id} className="flex items-center">
+                    <div key={d.id} className="flex items-center opacity-[0.6] hover:opacity-100">
                         <Links href={d.url} className="text-[13px] flex items-center">
                             {d?.avatar && <Avatar src={d.avatar} alt={d.name} sx={{ width: '25px', height: '25px', mr: 1 }} />}
                             {d.name}
                         </Links>
                         {ind < index.length && (
-                            <div className="text-[12px] mx-2">
+                            <div className="text-[12px] mx-2 opacity-[0.6]">
                                 <FcNext />
                             </div>
                         )}
                     </div>
                 ))}
 
-                <p className="text-[13px]">{dataDetail[2].name}</p>
+                <p className="text-[13px] opacity-[0.6]">{dataDetail[2].name}</p>
             </div>
             <div className="w-[500px] ">
                 <Picture data={dataDetail[2].images} />
             </div>
-            <div className="w-[500px] mx-4">
+            <div className="w-[579px] mx-4">
                 <Content data={dataDetail[2]} />
             </div>
             <div></div>
