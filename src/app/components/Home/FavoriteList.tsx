@@ -5,6 +5,7 @@ import { Box, Rating, Typography } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
+import { PropsProductDetail } from '@/app/product/detail/[id]/page';
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -21,7 +22,7 @@ function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 const FavoriteList: React.FC<{
-    data: { id: string; name: string; promotion: any; rating: string[]; image: string; currency: { id: string; name: string; price: number; icon: string }; saleOut: number }[];
+    data: PropsProductDetail[];
 }> = ({ data }) => {
     const [value, setValue] = React.useState<number | null>(0);
     const handleMouseOver = (e: any) => {
@@ -47,7 +48,7 @@ const FavoriteList: React.FC<{
                     onMouseLeave={handleMouseOut}
                 >
                     <Div className="w-full h-[195px] relative" $css="&:hover{.rate{display:flex}}">
-                        <img src={m.image} alt={m.name} />
+                        <img src={m.images[0].url} alt={m.name} />
                         {m.rating.map((r, index) => (
                             <Div
                                 key={r}

@@ -25,7 +25,7 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className={`${inter.className} flex justify-center`}>
                 <AuthSessionProvider>
                     <StyledComponentsRegistry>
                         <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-[#1e1e1e] text-[#dcdcdc] pt-[55px]">
