@@ -57,27 +57,6 @@ export default function Home() {
                         ]}
                     />
                 </div>{' '}
-                <div className="w-full flex flex-wrap mb-4">
-                    <div className="w-full flex items-center mb-[10px]">
-                        {' '}
-                        <div className="w-full h-[1px] bg-[rgb(100_100_100)]"></div>
-                        <h1 className="text-sm px-2">Suggestions</h1>
-                        <div className="w-full h-[1px] bg-[rgb(100_100_100)]"></div>
-                    </div>
-                    <FavoriteList
-                        data={[
-                            {
-                                id: '1',
-                                name: 'Luxury Diamond Necklace',
-                                image: 'https://richardscojewellery.com/cdn/shop/products/inCollage_20210615_212612020_1660x.jpg?v=1624115587',
-                                currency: { id: '1', name: 'VND', icon: 'đ', price: 10.0 },
-                                promotion: '',
-                                rating: ['Luxury + standard'],
-                                saleOut: 10,
-                            },
-                        ]}
-                    />
-                </div>
                 <div>3</div>
             </div>
         </div>

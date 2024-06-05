@@ -1,6 +1,6 @@
 'use client';
 import Images from '@/app/assets/images';
-import { Div, H3 } from '@/app/utils/styleComponent';
+import { Div, H3, Links } from '@/app/utils/styleComponent';
 import { Box, Rating, Typography } from '@mui/material';
 import Image from 'next/image';
 import React from 'react';
@@ -39,8 +39,9 @@ const FavoriteList: React.FC<{
     return (
         <div className="flex flex-wrap m-1 mx-2">
             {data?.map((m) => (
-                <Div
+                <Links
                     key={m.id}
+                    href={`product/detail/${m.id}`}
                     className="parentsRate1 w-[171px] shadow-[0_0_4px_#0a0a0a] bg-[#2b2b2bbf] hover:shadow-[0_0_5px_cornflowerblue] rounded-[5px] cursor-pointer m-1 mx-2"
                     onMouseOver={handleMouseOver}
                     onMouseLeave={handleMouseOut}
@@ -88,7 +89,7 @@ const FavoriteList: React.FC<{
                             <p className="text-[10px] opacity-[0.6]">Đã bán {m.saleOut}</p>
                         </div>
                     </Div>
-                </Div>
+                </Links>
             ))}
             <Div className="hidden fixed top-0 left-0 w-full h-full bg-[#00000036] opacityDiv "></Div>
         </div>

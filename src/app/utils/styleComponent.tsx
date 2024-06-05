@@ -18,3 +18,8 @@ export const H3 = styled.h3<{ $css?: string; $width?: string; $height?: string }
     height: ${(props) => props.$height};
     ${(props) => props.$css};
 `;
+export const Img = styled.img<{ $css?: string; $width?: string; $height?: string }>`
+    width: ${(props) => props.$width};
+    height: ${(props) => props.$height};
+    ${(props) => props.$css};
+`;
