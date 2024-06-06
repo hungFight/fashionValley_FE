@@ -2,10 +2,12 @@
 import React from 'react';
 import { Box, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import { Div, H3 } from '@/app/utils/styleComponent';
+import { Div, H3, H3BOX, P } from '@/app/utils/styleComponent';
 import { PiChecksThin } from 'react-icons/pi';
 import { PropsProductDetail } from '@/app/product/detail/[id]/page';
 import { IoMdHeart } from 'react-icons/io';
+import { FcShipped } from 'react-icons/fc';
+import { MdOutlineExpandMore } from 'react-icons/md';
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -29,7 +31,7 @@ const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
                 <p className="text-sm mr-1">4.5</p>{' '}
                 <Rating name="half-rating" size="small" readOnly emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />} precision={0.5} getLabelText={getLabelText} value={4.5} />{' '}
                 <Box sx={{ ml: 2, mt: '2px', fontSize: '12px' }}>{labels[4.5]}</Box>
-                <p className="text-[11px] mx-4 opacity-[0.6]">|</p>
+                <p className="text-[11px] mx-4 opacity-[0.7]">|</p>
                 <div className="flex items-center">
                     <p className="text-[12px]">4.5k Sold</p>
                     <p className="text-[11px] mx-4 opacity-[0.6]">|</p>
@@ -52,10 +54,37 @@ const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
             <Div className="">
                 <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
                 <div className="p-3 bg-[#2c2c2c99]">
-                    <p className="text-sm">
-                        {data.currency.icon}
+                    <P className="text-sm " $css="text-decoration: line-through;">
                         {data.currency.price}
-                    </p>
+                        {data.currency.name}
+                    </P>
+                    <div className="my-1 flex items-center">
+                        <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
+                            Discount: 30%
+                        </H3>
+                        <p className="mx-1">+</p>
+                        <Div className="w-fit flex items-center bg-[#515151c7] px-2">
+                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                Free ship
+                            </H3>
+                            <div className="text-[20px]">
+                                <FcShipped />
+                            </div>
+                        </Div>{' '}
+                        <p className="mx-1">+</p>
+                        <Div className="w-[57%] flex items-center bg-[#515151c7] px-2 cursor-pointer">
+                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                Voucher
+                            </H3>
+                            <div className="rotate-180">
+                                <MdOutlineExpandMore />
+                            </div>
+                            <H3BOX className="w-fit text-[12px] py-1 px-1" $css="">
+                                reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                            </H3BOX>
+                            <p className="mx-1 text-[12px]">+3</p>
+                        </Div>
+                    </div>
                 </div>
             </Div>
         </div>
