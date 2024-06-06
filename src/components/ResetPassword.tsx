@@ -12,16 +12,16 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Images from '../assets/images';
 import Image from 'next/image';
 import { CheckboxProps, Col, Row } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
-import Validation from '../utils/Validation/Validation';
 import SendIcon from '@mui/icons-material/Send';
 import { MuiTelInput } from 'mui-tel-input';
-import userAPI from '../restfulAPI/userAPI';
 import { LoadingButton } from '@mui/lab';
+import Validation from '@/utils/Validation/Validation';
+import userAPI from '@/restfulAPI/userAPI';
+import Images from '@/assets/images';
 const defaultTheme = createTheme();
 
 const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: string; id: String } }> = ({ code, accountValue }) => {
@@ -90,7 +90,7 @@ const ResetPassword: React.FC<{ code: string; accountValue?: { phoneEmail: strin
                                 bgcolor: 'secondary.main',
                             }}
                         >
-                            <Image src={Images.theme8} alt="Fashion Valley" />
+                            <Image src={Images.logo} alt="Fashion Valley" />
                         </Avatar>
                         <Typography component="h5" variant="h5">
                             Reset your password

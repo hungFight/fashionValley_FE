@@ -1,6 +1,5 @@
 import { getCookie } from '@/app/actions';
-import Register from '@/app/components/Register';
-import PhoneInput from 'react-phone-input-2';
+import Register from '@/components/Register';
 
 const SignUpSide: React.FC<{ params: { code: string } }> = async ({ params }) => {
     const accountValue = await getCookie('asdf_'),

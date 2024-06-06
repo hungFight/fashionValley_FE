@@ -1,10 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Validation from './app/utils/Validation/Validation';
-import http from './app/utils/http';
-import verifyAPI from './app/restfulAPI/verifyAPI';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './app/api/auth/[...nextauth]/route';
+import verifyAPI from './restfulAPI/verifyAPI';
+import Validation from './utils/Validation/Validation';
 export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/login')) {
         // const data: { user: { name: string; email: string; image: string } } | null = await getServerSession(authOptions);

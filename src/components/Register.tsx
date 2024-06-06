@@ -14,13 +14,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Paper } from '@mui/material';
 import Image from 'next/image';
 import Cookies from 'js-cookie';
-import Validation from '@/app/utils/Validation/Validation';
+import Validation from '@/utils/Validation/Validation';
 import PhoneInput from 'react-phone-input-2';
-import userAPI from '@/app/restfulAPI/userAPI';
 import Images from '../assets/images';
 import { MuiTelInput } from 'mui-tel-input';
 import SendIcon from '@mui/icons-material/Send';
 import { LoadingButton } from '@mui/lab';
+import userAPI from '@/restfulAPI/userAPI';
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
@@ -118,7 +118,7 @@ const Register: React.FC<{ code: string; accountValue?: { phoneEmail: string; id
                                 height: '50px',
                             }}
                         >
-                            <Image src={Images.theme8} alt="Fashion Valley" />
+                            <Image src={Images.logo} alt="Fashion Valley" />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign up

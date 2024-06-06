@@ -3,11 +3,9 @@ import Image from 'next/image';
 import { IoStorefrontOutline } from 'react-icons/io5';
 import { CiSearch } from 'react-icons/ci';
 import { Avatar } from '@mui/material';
-import { Div, Links } from '../utils/styleComponent';
-import Images from '../assets/images';
 import { GoHome } from 'react-icons/go';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]/route';
+import { Div, Links } from '@/utils/styleComponent';
+import Images from '@/assets/images';
 const Header: React.FC<{ user: { name: string; email: string; image: string } }> = async ({ user }) => {
     return (
         <Div

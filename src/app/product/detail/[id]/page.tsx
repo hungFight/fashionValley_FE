@@ -1,7 +1,7 @@
-import Content from '@/app/components/Product/Detail/Content';
-import Picture from '@/app/components/Product/Detail/Picture';
+import Content from '@/components/Product/Detail/Content';
+import Picture from '@/components/Product/Detail/Picture';
 import { dataDetail } from '@/app/page';
-import { Links } from '@/app/utils/styleComponent';
+import { Links } from '@/utils/styleComponent';
 import { Avatar } from '@mui/material';
 import React from 'react';
 import { FcNext } from 'react-icons/fc';

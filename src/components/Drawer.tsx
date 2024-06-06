@@ -1,16 +1,11 @@
 'use client';
-import * as React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import { MdOutlineExpandMore } from 'react-icons/md';
 import { FcStatistics } from 'react-icons/fc';
 import { PiChecksThin } from 'react-icons/pi';
 import { PiClockCountdownThin } from 'react-icons/pi';
-import { Div } from '@/app/utils/styleComponent';
+import { Div } from '@/utils/styleComponent';
 import Switch from '@mui/material/Switch';
+import React from 'react';
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 const mainData = [
     {

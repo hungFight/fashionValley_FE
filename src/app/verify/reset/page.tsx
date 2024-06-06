@@ -1,5 +1,5 @@
 import * as React from 'react';
-import VerifyOTP from '@/app/components/FormOTP';
+import VerifyOTP from '@/components/FormOTP';
 import { cookies } from 'next/headers';
 
 const VerifyReset = () => {

@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Div, H3, Links } from '@/app/utils/styleComponent';
+import { Div, H3, Links } from '@/utils/styleComponent';
 import { PropsProductDetail } from '@/app/product/detail/[id]/page';
 
 const FavoriteList: React.FC<{

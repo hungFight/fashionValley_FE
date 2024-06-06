@@ -1,7 +1,5 @@
 import { getCookie } from '@/app/actions';
-import Register from '@/app/components/Register';
-import ResetPassword from '@/app/components/ResetPassword';
-import PhoneInput from 'react-phone-input-2';
+import ResetPassword from '@/components/ResetPassword';
 
 const ResetPasswordSide: React.FC<{ params: { code: string } }> = async ({ params }) => {
     const accountValue = await getCookie('asdf_'),

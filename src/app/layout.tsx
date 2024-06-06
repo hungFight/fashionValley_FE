@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import AuthSessionProvider from './api/auth/AuthSessionProvider';
-import Header from './components/Header';
 import StyledComponentsRegistry from '../../lib/registry';
 import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/route';
-import Drawer from './components/Drawer';
+import AuthSessionProvider from '@/api/auth/AuthSessionProvider';
+import Header from '@/components/Header';
+import { Drawer } from 'antd';
+import { authOptions } from '@/api/auth/[...nextauth]/route';
 
 const inter = Inter({ subsets: ['latin'] });
 

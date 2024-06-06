@@ -11,17 +11,17 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Images from '../assets/images';
 import Image from 'next/image';
 import { CheckboxProps } from 'antd';
 import { FaFacebook, FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import SendIcon from '@mui/icons-material/Send';
 import { LoadingButton } from '@mui/lab';
-import Validation from '../utils/Validation/Validation';
-import userAPI from '../restfulAPI/userAPI';
+import Validation from '../../utils/Validation/Validation';
 import { navigate } from '../actions';
 import { signIn } from 'next-auth/react';
+import Images from '@/assets/images';
+import userAPI from '@/restfulAPI/userAPI';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {

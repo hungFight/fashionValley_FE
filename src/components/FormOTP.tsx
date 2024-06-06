@@ -21,10 +21,10 @@ import 'react-phone-input-2/lib/style.css';
 import { useRef } from 'react';
 import verify from '../restfulAPI/verifyAPI';
 import verifyAPI from '../restfulAPI/verifyAPI';
-import Validation from '../utils/Validation/Validation';
-import { navigate } from '../actions';
 import { LoadingButton } from '@mui/lab';
 import SendIcon from '@mui/icons-material/Send';
+import Validation from '@/utils/Validation/Validation';
+import { navigate } from '@/app/actions';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const onChange: CheckboxProps['onChange'] = (e) => {

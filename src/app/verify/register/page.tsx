@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cookies } from 'next/headers';
-import VerifyOTP from '@/app/components/FormOTP';
+import VerifyOTP from '@/components/FormOTP';
 
 const VerifyRegister = () => {
     const cookieStore = cookies();

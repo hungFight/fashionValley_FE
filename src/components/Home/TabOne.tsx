@@ -1,4 +1,4 @@
-import Images from '@/app/assets/images';
+import Images from '@/assets/images';
 import Image from 'next/image';
 import React from 'react';
 import { FcShipped } from 'react-icons/fc';

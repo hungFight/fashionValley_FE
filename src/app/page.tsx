@@ -1,6 +1,4 @@
-import TabOne from './components/Home/TabOne';
-import FavoriteList from './components/Home/FavoriteList';
-import { H3 } from './utils/styleComponent';
+import FavoriteList from '@/components/Home/FavoriteList';
 export const dataDetail = [
     {
         id: '1',

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import { Div, H3, H3BOX, P } from '@/app/utils/styleComponent';
+import { Div, H3, H3BOX, P } from '@/utils/styleComponent';
 import { PiChecksThin } from 'react-icons/pi';
 import { PropsProductDetail } from '@/app/product/detail/[id]/page';
 import { IoMdHeart } from 'react-icons/io';

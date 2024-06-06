@@ -4,10 +4,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Unstable_Grid2';
-import Images from '@/app/assets/images';
+import Images from '@/assets/images';
 import Image from 'next/image';
-import { Img } from '@/app/utils/styleComponent';
 import { PropsImageDetail, PropsProductDetail } from '@/app/product/detail/[id]/page';
+import { Img } from '@/utils/styleComponent';
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
