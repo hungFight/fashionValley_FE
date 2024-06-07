@@ -19,6 +19,6 @@ export const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
 };
 const handler = NextAuth(authOptions);
-console.log('process.env.FACEBOOK_ID ---- 1111', process.env.NEXTAUTH_SECRET);
+console.log(process.env.NEXTAUTH_SECRET, 'facebook key', process.env.FACEBOOK_SECRET_KEY);
 
 export { handler as GET, handler as POST };

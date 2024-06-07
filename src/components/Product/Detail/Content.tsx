@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Box, Rating } from '@mui/material';
+import { Box, Checkbox, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { Div, H3, H3BOX, P } from '@/utils/styleComponent';
 import { PiChecksThin } from 'react-icons/pi';
@@ -23,6 +23,7 @@ const labels: { [index: string]: string } = {
 function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
     return (
         <div>
@@ -52,38 +53,98 @@ const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
             </Div>
             <div className="w-[250px] h-[1px] mx-auto mb-3 mt-5 bg-[#94949499]"></div>
             <Div className="">
-                <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
-                <div className="p-3 bg-[#2c2c2c99]">
-                    <P className="text-sm " $css="text-decoration: line-through;">
-                        {data.currency.price}
-                        {data.currency.name}
-                    </P>
-                    <div className="my-1 flex items-center">
-                        <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
-                            Discount: 30%
-                        </H3>
-                        <p className="mx-1">+</p>
-                        <Div className="w-fit flex items-center bg-[#515151c7] px-2">
+                <div>
+                    <H3 className="text-[13px] opacity-[0.7]">Category</H3>
+                    <div className="p-3 bg-[#2c2c2c99] mb-5">
+                        <div className="flex items-center">
                             <H3 className="w-fit text-[12px] py-2 px-1" $css="">
-                                Free ship
+                                Size:
                             </H3>
-                            <div className="text-[20px]">
-                                <FcShipped />
-                            </div>
-                        </Div>{' '}
-                        <p className="mx-1">+</p>
-                        <Div className="w-[57%] flex items-center bg-[#515151c7] px-2 cursor-pointer">
-                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
-                                Voucher
+                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                                M 35-50kg
+                            </P>{' '}
+                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                                L 50-62kg
+                            </P>{' '}
+                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                                XL 62-75kg
+                            </P>
+                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                                2XL 75-87kg
+                            </P>
+                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                                3XL 87kg-95kg
+                            </P>
+                        </div>
+                    </div>
+                </div>{' '}
+                <div>
+                    <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
+                    <div className="p-3 bg-[#2c2c2c99]">
+                        <div className="flex items-center">
+                            <Div className="w-fit flex items-center  px-2">
+                                <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                    Delivery cost 30.000
+                                </H3>
+                            </Div>
+                            <P className="text-sm " $css="text-decoration: line-through;">
+                                {data.currency.price}
+                                {data.currency.name}
+                            </P>
+                        </div>
+                        <div className="my-1 flex items-center">
+                            <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
+                                Discount: 30%
                             </H3>
-                            <div className="rotate-180">
-                                <MdOutlineExpandMore />
-                            </div>
-                            <H3BOX className="w-fit text-[12px] py-1 px-1" $css="">
-                                reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                            </H3BOX>
-                            <p className="mx-1 text-[12px]">+3</p>
-                        </Div>
+                            <p className="mx-1">+</p>
+                            <Div className="w-fit flex items-center bg-[#515151c7] px-2">
+                                <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                    Free ship
+                                </H3>
+                                <div className="text-[20px]">
+                                    <FcShipped />
+                                </div>
+                            </Div>{' '}
+                            <p className="mx-1">+</p>
+                            <Div className="w-[57%] flex items-center bg-[#474747] px-2 cursor-pointer relative" $css="&:hover{.showVouchers{display:flex}}">
+                                <Div
+                                    className="showVouchers hidden items-center flex-wrap absolute bottom-[35px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1 "
+                                    $css=".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{color: #d0d0d0} .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{color: #4492df  !important}"
+                                >
+                                    <div className="flex items-center ">
+                                        <Checkbox {...label} defaultChecked />
+                                        <p className="text-[13px]">
+                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                        </p>
+                                    </div>{' '}
+                                    <div className="flex items-center ">
+                                        <Checkbox {...label} defaultChecked />
+                                        <p className="text-[13px]">
+                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                        </p>
+                                    </div>{' '}
+                                    <div className="flex items-center ">
+                                        <Checkbox {...label} defaultChecked />
+                                        <p className="text-[13px]">
+                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                        </p>
+                                    </div>
+                                </Div>
+                                <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                    Voucher
+                                </H3>
+                                <div className="rotate-180">
+                                    <MdOutlineExpandMore />
+                                </div>
+                                <H3BOX className="w-fit text-[12px] py-1 px-1" $css="">
+                                    reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                </H3BOX>
+                                <p className="mx-1 text-[12px]">+3</p>
+                            </Div>
+                        </div>
+                        <div>
+                            <H3>Total: </H3>
+                        </div>
                     </div>
                 </div>
             </Div>

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import verifyAPI from './restfulAPI/verifyAPI';
 import Validation from './utils/Validation/Validation';
 export async function middleware(req: NextRequest) {
+    console.log('123456789');
+
     if (req.nextUrl.pathname.startsWith('/login')) {
         // const data: { user: { name: string; email: string; image: string } } | null = await getServerSession(authOptions);
         if (req.cookies.get('next-auth.session-token')) return NextResponse.redirect(new URL('/', req.url));
