@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Box, Checkbox, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { Div, H3, H3BOX, P } from '@/utils/styleComponent';
@@ -8,6 +8,8 @@ import { PropsProductDetail } from '@/app/product/detail/[id]/page';
 import { IoMdHeart } from 'react-icons/io';
 import { FcShipped } from 'react-icons/fc';
 import { MdOutlineExpandMore } from 'react-icons/md';
+import { FaCheck } from 'react-icons/fa6';
+import { IconType } from 'react-icons';
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -25,6 +27,15 @@ function getLabelText(value: number) {
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
+    const [size, setSize] = useState<{ id: string; icon: ReactElement }>({
+        id: '',
+        icon: (
+            <div className="absolute bottom-0 right-0">
+                {' '}
+                <FaCheck />
+            </div>
+        ),
+    });
     return (
         <div>
             <H3 className="text-sm">{data.name}</H3>
@@ -56,28 +67,98 @@ const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
                 <div>
                     <H3 className="text-[13px] opacity-[0.7]">Category</H3>
                     <div className="p-3 bg-[#2c2c2c99] mb-5">
+                        <div className="flex items-center mb-2">
+                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                Size:
+                            </H3>
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
+                            >
+                                M 35-50kg
+                                {size.id === '1' && size.icon}
+                            </P>{' '}
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '2' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '2' }))}
+                            >
+                                L 50-62kg
+                                {size.id === '2' && size.icon}
+                            </P>{' '}
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '3' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '3' }))}
+                            >
+                                XL 62-75kg
+                                {size.id === '3' && size.icon}
+                            </P>
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '4' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '4' }))}
+                            >
+                                2XL 75-87kg
+                                {size.id === '4' && size.icon}
+                            </P>
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '5' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '5' }))}
+                            >
+                                3XL 87kg-95kg
+                                {size.id === '5' && size.icon}
+                            </P>
+                        </div>{' '}
                         <div className="flex items-center">
                             <H3 className="w-fit text-[12px] py-2 px-1" $css="">
                                 Size:
                             </H3>
-                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
+                            >
                                 M 35-50kg
+                                {size.id === '1' && size.icon}
                             </P>{' '}
-                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '2' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '2' }))}
+                            >
                                 L 50-62kg
+                                {size.id === '2' && size.icon}
                             </P>{' '}
-                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '3' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '3' }))}
+                            >
                                 XL 62-75kg
+                                {size.id === '3' && size.icon}
                             </P>
-                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '4' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '4' }))}
+                            >
                                 2XL 75-87kg
+                                {size.id === '4' && size.icon}
                             </P>
-                            <P className="text-[11px] shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]" $css="">
+                            <P
+                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                $css={`${size.id === '5' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                onClick={() => setSize((pre) => ({ ...pre, id: '5' }))}
+                            >
                                 3XL 87kg-95kg
+                                {size.id === '5' && size.icon}
                             </P>
                         </div>
                     </div>
-                </div>{' '}
+                </div>
                 <div>
                     <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
                     <div className="p-3 bg-[#2c2c2c99]">
