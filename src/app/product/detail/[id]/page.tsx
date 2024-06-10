@@ -1,13 +1,20 @@
-import Content from '@/components/Product/Detail/Content';
-import Picture from '@/components/Product/Detail/Picture';
 import { dataDetail } from '@/app/page';
+import Index from '@/components/Product/Detail/Index';
 import { Links } from '@/utils/styleComponent';
 import { Avatar } from '@mui/material';
 import React from 'react';
 import { FcNext } from 'react-icons/fc';
+
 export interface PropsImageDetail {
     id: string;
-    url: string;
+    src: string;
+    thumb: string;
+    subHtml: string;
+}
+export interface PropsCateOptionDetail {
+    id: string;
+    name: string;
+    data: { id: string; content: string; src?: string }[];
 }
 export interface PropsProductDetail {
     id: string;
@@ -17,6 +24,7 @@ export interface PropsProductDetail {
     images: PropsImageDetail[];
     currency: { id: string; name: string; price: number; icon: string };
     saleOut: number;
+    cateOption: PropsCateOptionDetail[];
 }
 const index = [
     { id: 1, name: ' FashionValley', url: '/' },
@@ -46,15 +54,9 @@ const page: React.FC<{ params: { id: string } }> = ({ params }) => {
                         )}
                     </div>
                 ))}
-
                 <p className="text-[13px] opacity-[0.6]">{dataDetail[2].name}</p>
             </div>
-            <div className="w-[500px] ">
-                <Picture data={dataDetail[2].images} />
-            </div>
-            <div className="w-[579px] mx-4">
-                <Content data={dataDetail[2]} />
-            </div>
+            <Index data={dataDetail[2].cateOption} />
             <div></div>
         </div>
     );

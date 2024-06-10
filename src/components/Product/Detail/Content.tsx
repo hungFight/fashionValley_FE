@@ -1,10 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import React, { ReactElement, useState } from 'react';
 import { Box, Checkbox, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { Div, H3, H3BOX, P } from '@/utils/styleComponent';
 import { PiChecksThin } from 'react-icons/pi';
-import { PropsProductDetail } from '@/app/product/detail/[id]/page';
+import { PropsCateOptionDetail, PropsProductDetail } from '@/app/product/detail/[id]/page';
 import { IoMdHeart } from 'react-icons/io';
 import { FcShipped } from 'react-icons/fc';
 import { MdOutlineExpandMore } from 'react-icons/md';
@@ -26,7 +27,7 @@ function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
+const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({ data, setImageColor }) => {
     const [size, setSize] = useState<{ id: string; icon: ReactElement }>({
         id: '',
         icon: (
@@ -66,97 +67,44 @@ const Content: React.FC<{ data: PropsProductDetail }> = ({ data }) => {
             <Div className="">
                 <div>
                     <H3 className="text-[13px] opacity-[0.7]">Category</H3>
-                    <div className="p-3 bg-[#2c2c2c99] mb-5">
-                        <div className="flex items-center mb-2">
-                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
-                                Size:
-                            </H3>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
-                            >
-                                M 35-50kg
-                                {size.id === '1' && size.icon}
-                            </P>{' '}
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '2' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '2' }))}
-                            >
-                                L 50-62kg
-                                {size.id === '2' && size.icon}
-                            </P>{' '}
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '3' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '3' }))}
-                            >
-                                XL 62-75kg
-                                {size.id === '3' && size.icon}
-                            </P>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '4' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '4' }))}
-                            >
-                                2XL 75-87kg
-                                {size.id === '4' && size.icon}
-                            </P>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '5' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '5' }))}
-                            >
-                                3XL 87kg-95kg
-                                {size.id === '5' && size.icon}
-                            </P>
-                        </div>{' '}
-                        <div className="flex items-center">
-                            <H3 className="w-fit text-[12px] py-2 px-1" $css="">
-                                Size:
-                            </H3>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
-                            >
-                                M 35-50kg
-                                {size.id === '1' && size.icon}
-                            </P>{' '}
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '2' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '2' }))}
-                            >
-                                L 50-62kg
-                                {size.id === '2' && size.icon}
-                            </P>{' '}
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '3' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '3' }))}
-                            >
-                                XL 62-75kg
-                                {size.id === '3' && size.icon}
-                            </P>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '4' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '4' }))}
-                            >
-                                2XL 75-87kg
-                                {size.id === '4' && size.icon}
-                            </P>
-                            <P
-                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                $css={`${size.id === '5' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                onClick={() => setSize((pre) => ({ ...pre, id: '5' }))}
-                            >
-                                3XL 87kg-95kg
-                                {size.id === '5' && size.icon}
-                            </P>
-                        </div>
+                    <div className="p-3 py-5 bg-[#2c2c2c99] mb-5">
+                        {data.cateOption.map((a) => (
+                            <div key={a.id} className="flex items-start  mb-4">
+                                <H3 className="w-fit text-[12px] py-[2px] px-1" $css="">
+                                    {a.name}:
+                                </H3>
+                                <div className="flex flex-wrap items-center">
+                                    {a.data.map((c) => {
+                                        if (c.src)
+                                            return (
+                                                <Div
+                                                    key={c.id}
+                                                    className="text-[11px] flex mb-2 items-center relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                                    $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                                    // onClick={() => setImageColor(c)}
+                                                >
+                                                    <div className="w-5 h-5 mr-1">
+                                                        <img src={c.src} alt={c.content} />
+                                                    </div>
+                                                    <p>{c.content}</p>
+                                                    {size.id === c.id && size.icon}
+                                                </Div>
+                                            );
+                                        return (
+                                            <P
+                                                key={c.id}
+                                                className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
+                                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
+                                            >
+                                                {c.content}
+                                                {size.id === c.id && size.icon}
+                                            </P>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
                 <div>

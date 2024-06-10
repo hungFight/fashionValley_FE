@@ -30,7 +30,7 @@ const FavoriteList: React.FC<{
                     onMouseLeave={handleMouseOut}
                 >
                     <Div className="w-full h-[195px] relative" $css="&:hover{.rate{display:flex}}">
-                        <img src={m.images[0].url} alt={m.name} />
+                        <img src={m.images[0].src} alt={m.name} />
                         {m.rating.map((r, index) => (
                             <Div
                                 key={r}

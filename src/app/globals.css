@@ -103,3 +103,34 @@ img {
   height: 100%;
   object-fit: cover;
 }
+
+.masonry-gallery-demo {
+  margin: 0 auto;
+
+
+}
+
+.masonry-gallery-demo::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.lg-container {
+  z-index: 9999;
+}
+
+.grid-sizer,
+.lg-item {
+  width: 33.33%;
+}
+
+.lg-item {
+  float: left;
+  margin-bottom: 10px;
+}
+
+.lg-item img {
+  display: block;
+  max-width: 100%;
+}
