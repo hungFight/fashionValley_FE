@@ -14,7 +14,8 @@ export interface PropsImageDetail {
 export interface PropsCateOptionDetail {
     id: string;
     name: string;
-    data: { id: string; content: string; src?: string }[];
+    newPrice: boolean;
+    data: { id: string; content: string; src?: string; price?: number }[];
 }
 export interface PropsProductDetail {
     id: string;

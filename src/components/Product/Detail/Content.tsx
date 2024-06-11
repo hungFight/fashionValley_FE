@@ -28,15 +28,30 @@ function getLabelText(value: number) {
 }
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({ data, setImageColor }) => {
-    const [size, setSize] = useState<{ id: string; icon: ReactElement }>({
-        id: '',
+    const [cateOption, setCateOption] = useState<{ icon: ReactElement; price: number; data: { id: string; name: string; src?: string; selectId: string }[] }>({
         icon: (
             <div className="absolute bottom-0 right-0">
                 {' '}
                 <FaCheck />
             </div>
         ),
+        data: [],
+        price: data.currency.price,
     });
+    const onSelected = (id: string, name: string, selectedId: string, newPrice?: number) => {
+        let checkId = false;
+        const rr = cateOption.data.map((r) => {
+            if (r.id === id) {
+                if (r.selectId !== selectedId) r.selectId = selectedId;
+                checkId = true;
+            }
+            return r;
+        });
+        if (!checkId) setCateOption((pre) => ({ ...pre, price: newPrice ?? pre.price, data: [...pre.data, { id, name: name, selectId: selectedId }] }));
+        else setCateOption((pre) => ({ ...pre, price: newPrice ?? pre.price, data: rr }));
+    };
+    const isSelected = (id: string, name: string, selectedId: string) => cateOption.data.some((r) => r.id === id && name === r.name && r.selectId === selectedId);
+
     return (
         <div>
             <H3 className="text-sm">{data.name}</H3>
@@ -80,25 +95,25 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                                 <Div
                                                     key={c.id}
                                                     className="text-[11px] flex mb-2 items-center relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                                    $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                                    // onClick={() => setImageColor(c)}
+                                                    $css={`${isSelected(a.id, a.name, c.id) ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                                    onClick={() => onSelected(a.id, a.name, c.id, c.price)}
                                                 >
                                                     <div className="w-5 h-5 mr-1">
                                                         <img src={c.src} alt={c.content} />
                                                     </div>
                                                     <p>{c.content}</p>
-                                                    {size.id === c.id && size.icon}
+                                                    {isSelected(a.id, a.name, c.id) && cateOption.icon}
                                                 </Div>
                                             );
                                         return (
                                             <P
                                                 key={c.id}
                                                 className="text-[11px] relative shadow-[0_0_2px_#b3b3b3] px-[6px] py-1 mx-1 cursor-pointer opacity-90 hover:border hover:border-[#0f8d91]"
-                                                $css={`${size.id === '1' ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
-                                                onClick={() => setSize((pre) => ({ ...pre, id: '1' }))}
+                                                $css={`${isSelected(a.id, a.name, c.id) ? 'border: 1px solid #0f8d91; color: #7bd0d2' : ''}`}
+                                                onClick={() => onSelected(a.id, a.name, c.id, c.price)}
                                             >
                                                 {c.content}
-                                                {size.id === c.id && size.icon}
+                                                {isSelected(a.id, a.name, c.id) && cateOption.icon}
                                             </P>
                                         );
                                     })}
@@ -117,7 +132,7 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                 </H3>
                             </Div>
                             <P className="text-sm " $css="text-decoration: line-through;">
-                                {data.currency.price}
+                                {cateOption.price}
                                 {data.currency.name}
                             </P>
                         </div>

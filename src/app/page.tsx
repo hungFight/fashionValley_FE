@@ -20,6 +20,7 @@ export const dataDetail = [
         cateOption: [
             {
                 id: '1',
+                newPrice: false,
                 name: 'Size',
                 data: [
                     { id: '1', content: 'M 35-50kg' },
@@ -31,6 +32,7 @@ export const dataDetail = [
             },
             {
                 id: '2',
+                newPrice: false,
                 name: 'Color',
                 data: [
                     { id: '1', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/564x/bd/83/93/bd8393fc441238a13936071d53451278.jpg' },
@@ -60,6 +62,7 @@ export const dataDetail = [
         cateOption: [
             {
                 id: '1',
+                newPrice: false,
                 name: 'Size',
                 data: [
                     { id: '1', content: 'M 35-50kg' },
@@ -71,6 +74,7 @@ export const dataDetail = [
             },
             {
                 id: '2',
+                newPrice: false,
                 name: 'Color',
                 data: [
                     { id: '1', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/564x/bd/83/93/bd8393fc441238a13936071d53451278.jpg' },
@@ -136,6 +140,7 @@ export const dataDetail = [
             {
                 id: '1',
                 name: 'Size',
+                newPrice: false,
                 data: [
                     { id: '1', content: 'M 35-50kg' },
                     { id: '2', content: 'L 50-62kg' },
@@ -147,11 +152,23 @@ export const dataDetail = [
             {
                 id: '2',
                 name: 'Color',
+                newPrice: false,
                 data: [
                     { id: '1', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/564x/bd/83/93/bd8393fc441238a13936071d53451278.jpg' },
                     { id: '2', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/736x/49/ed/c8/49edc83fbece6ec351bc1154f8f10cd9.jpg' },
                     { id: '3', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/564x/e8/0f/3c/e80f3cb3bb8dfad6a1f80f533ba40951.jpg' },
                     { id: '4', content: 'Màu đen bóng quý phái ', src: 'https://i.pinimg.com/564x/e8/0f/3c/e80f3cb3bb8dfad6a1f80f533ba40951.jpg' },
+                ],
+            },
+            {
+                id: '3',
+                name: 'Brand',
+                newPrice: true,
+                data: [
+                    { id: '1', content: 'QWER', price: 360.0 },
+                    { id: '2', content: 'UTU', price: 350.0 },
+                    { id: '3', content: 'VCV', price: 700.0 },
+                    { id: '4', content: 'KUK', price: 436.0 },
                 ],
             },
         ],
@@ -175,6 +192,7 @@ export const dataDetail = [
         cateOption: [
             {
                 id: '1',
+                newPrice: false,
                 name: 'Size',
                 data: [
                     { id: '1', content: 'M 35-50kg' },
@@ -186,6 +204,7 @@ export const dataDetail = [
             },
             {
                 id: '2',
+                newPrice: false,
                 name: 'Color',
                 data: [
                     { id: '1', content: 'Màu đen bóng quý phái dành cho các quý ông và quý cô', src: 'https://i.pinimg.com/564x/bd/83/93/bd8393fc441238a13936071d53451278.jpg' },

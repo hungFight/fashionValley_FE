@@ -12,14 +12,27 @@ import { styled } from '@mui/material/styles';
 import lgShare from 'lightgallery/plugins/share';
 import lgHash from 'lightgallery/plugins/hash';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
+import lgAutoplay from 'lightgallery/plugins/autoplay';
+import lgFullscreen from 'lightgallery/plugins/fullscreen';
+import lgPager from 'lightgallery/plugins/pager';
+import lgRotate from 'lightgallery/plugins/rotate';
+
 import 'lightgallery/css/lightgallery.css';
-import 'lightgallery/css/lg-zoom.css';
 import 'lightgallery/css/lg-thumbnail.css';
-import { PropsImageDetail } from '@/app/product/detail/[id]/page';
+import 'lightgallery/css/lg-zoom.css';
+import 'lightgallery/css/lg-autoplay.css';
+import 'lightgallery/css/lg-fullscreen.css';
+// import 'lightgallery/css/lg-hash.css';
+import 'lightgallery/css/lg-rotate.css';
+import 'lightgallery/css/lg-share.css';
+import 'lightgallery/css/lg-video.css';
+// import 'lightgallery/css/lg-vimeo.css';
+
+import { PropsCateOptionDetail, PropsImageDetail } from '@/app/product/detail/[id]/page';
 import Images from '@/assets/images';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
-
+import lgVideo from 'lightgallery/plugins/video';
 import { Div, Img } from '@/utils/styleComponent';
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -30,7 +43,11 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const newI: any = Images;
-const Picture: React.FC<{ data: PropsImageDetail[]; imageColor?: PropsImageDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsImageDetail>> }> = ({ data, imageColor, setImageColor }) => {
+const Picture: React.FC<{ data: PropsImageDetail[]; imageColor: PropsCateOptionDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({
+    data,
+    imageColor,
+    setImageColor,
+}) => {
     const lightGalleryRef = useRef<any>(null);
     const [defaultV, setDefault] = useState<PropsImageDetail & { index: number }>({ ...data[0], index: 0 });
     const onInit = useCallback((detail: { instance: any }) => {
@@ -46,7 +63,14 @@ const Picture: React.FC<{ data: PropsImageDetail[]; imageColor?: PropsImageDetai
         <Box sx={{ flexGrow: 1, zIndex: 1 }}>
             <Box>
                 <Div $css=".masonry-gallery-demo{display: none;} ">
-                    <LightGallery onInit={onInit} elementClassNames="masonry-gallery-demo" thumbnail={true} zoom={true} plugins={[lgThumbnail, lgZoom, lgHash]} speed={500}>
+                    <LightGallery
+                        onInit={onInit}
+                        elementClassNames="masonry-gallery-demo"
+                        thumbnail={true}
+                        zoom={true}
+                        plugins={[lgThumbnail, lgZoom, lgAutoplay, lgFullscreen, lgRotate, lgShare, lgVideo]}
+                        speed={500}
+                    >
                         {data.map((img, index) => (
                             <Grid
                                 key={img.src}
