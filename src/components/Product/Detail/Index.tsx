@@ -5,7 +5,7 @@ import Picture from '@/components/Product/Detail/Picture';
 import { dataDetail } from '@/app/page';
 import { PropsCateOptionDetail, PropsImageDetail } from '@/app/product/detail/[id]/page';
 const Index: React.FC<{ data: PropsCateOptionDetail[] }> = ({ data }) => {
-    const [imageColor, setImageColor] = useState<PropsCateOptionDetail[]>(data);
+    const [imageColor, setImageColor] = useState<PropsCateOptionDetail>(data[0]);
     return (
         <>
             <div className="w-[500px]">

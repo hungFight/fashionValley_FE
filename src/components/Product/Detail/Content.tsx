@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 import React, { ReactElement, useState } from 'react';
-import { Box, Checkbox, Rating } from '@mui/material';
+import { Box, Checkbox, Radio, Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import { Div, H3, H3BOX, P } from '@/utils/styleComponent';
 import { PiChecksThin } from 'react-icons/pi';
@@ -9,6 +9,7 @@ import { PropsCateOptionDetail, PropsProductDetail } from '@/app/product/detail/
 import { IoMdHeart } from 'react-icons/io';
 import { FcShipped } from 'react-icons/fc';
 import { MdOutlineExpandMore } from 'react-icons/md';
+import { NumericFormat } from 'react-number-format';
 import { FaCheck } from 'react-icons/fa6';
 import { IconType } from 'react-icons';
 const labels: { [index: string]: string } = {
@@ -26,8 +27,16 @@ const labels: { [index: string]: string } = {
 function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
+const deliveryMethods = [
+    { id: '1', name: 'Standard' },
+    { id: '2', name: 'Express' },
+    { id: '3', name: 'Economy' },
+];
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({ data, setImageColor }) => {
+    const [delivery, setDelivery] = React.useState<{ id: string; name: string }>(deliveryMethods[0]);
+
+    //cateOption
     const [cateOption, setCateOption] = useState<{ icon: ReactElement; price: number; data: { id: string; name: string; src?: string; selectId: string }[] }>({
         icon: (
             <div className="absolute bottom-0 right-0">
@@ -51,6 +60,7 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
         else setCateOption((pre) => ({ ...pre, price: newPrice ?? pre.price, data: rr }));
     };
     const isSelected = (id: string, name: string, selectedId: string) => cateOption.data.some((r) => r.id === id && name === r.name && r.selectId === selectedId);
+    const NumberFormatter = (number: number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
     return (
         <div>
@@ -122,21 +132,48 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                         ))}
                     </div>
                 </div>
+                <div className="my-3">
+                    <H3 className="text-[13px] opacity-[0.7] flex items-center">
+                        Delivery methods
+                        <div className="text-[20px] ml-1">
+                            <FcShipped />
+                        </div>
+                    </H3>
+                    <div className="p-3 bg-[#2c2c2c99]">
+                        <div>
+                            {deliveryMethods.map((dv) => (
+                                <Div
+                                    key={dv.id}
+                                    className="flex w-full items-center cursor-pointer"
+                                    onClick={() => setDelivery(dv)}
+                                    $css=".css-vqmohf-MuiButtonBase-root-MuiRadio-root {color: rgb(251 251 251 / 80%)}.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {color: #e64d4d;} svg {font-size: 15px}"
+                                >
+                                    <H3 className="text-[13px] mr-">{dv.name}</H3> <Radio checked={delivery.id === dv.id} value={dv.id} name="radio-buttons" inputProps={{ 'aria-label': 'A' }} />
+                                </Div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
                 <div>
                     <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
                     <div className="p-3 bg-[#2c2c2c99]">
                         <div className="flex items-center">
-                            <Div className="w-fit flex items-center  px-2">
-                                <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                            <Div className="w-fit flex items-center">
+                                <H3 className="w-fit text-[12px] px-1" $css="">
+                                    Product cost {NumberFormatter(cateOption.price)}
+                                </H3>
+                                <p className="mx-1">+</p>
+                                <H3 className="w-fit text-[12px] px-1" $css="">
                                     Delivery cost 30.000
                                 </H3>
                             </Div>
+                            <p className="mx-1">=</p>
                             <P className="text-sm " $css="text-decoration: line-through;">
-                                {cateOption.price}
+                                {NumberFormatter(cateOption.price + 30000)}
                                 {data.currency.name}
                             </P>
                         </div>
-                        <div className="my-1 flex items-center">
+                        <div className="my-2 flex items-center">
                             <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
                                 Discount: 30%
                             </H3>
