@@ -132,7 +132,7 @@ export const dataDetail = [
                 src: 'https://i.pinimg.com/564x/cd/3c/b2/cd3cb2d82df233c5124c784112b215b8.jpg',
             },
         ],
-        currency: { id: '1', name: 'VND', icon: 'đ', price: 640.763 },
+        currency: { id: '1', name: 'VND', icon: 'đ', price: 640763 },
         promotion: '',
         rating: ['Luxury + Quality', 'Enduring'],
         saleOut: 10,

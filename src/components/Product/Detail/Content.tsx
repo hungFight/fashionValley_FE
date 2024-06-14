@@ -28,14 +28,19 @@ function getLabelText(value: number) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 const deliveryMethods = [
-    { id: '1', name: 'Standard' },
-    { id: '2', name: 'Express' },
-    { id: '3', name: 'Economy' },
+    { id: '1', name: 'Standard', cost: 30000 },
+    { id: '2', name: 'Express', cost: 50000 },
+    { id: '3', name: 'Economy', cost: 20000 },
 ];
+const vouchersShop = [
+    { id: '1', prefix: '%', cost: 10, condition: { prefix: '>=', name: 'price', valuePf: 60000 }, content: 'Áp dụng với sản phẩm có giá từ 60.000đ trở lên' },
+    { id: '2', prefix: '-', cost: 50000, condition: { prefix: '>=', name: 'item', valuePf: 2 }, content: '' },
+    { id: '2', prefix: '-', cost: 10000, condition: { prefix: '>=', name: 'potential', valuePf: 50 }, content: '' },
+];
+
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({ data, setImageColor }) => {
-    const [delivery, setDelivery] = React.useState<{ id: string; name: string }>(deliveryMethods[0]);
-
+    const [delivery, setDelivery] = React.useState<{ id: string; name: string; cost: number }>(deliveryMethods[0]);
     //cateOption
     const [cateOption, setCateOption] = useState<{ icon: ReactElement; price: number; data: { id: string; name: string; src?: string; selectId: string }[] }>({
         icon: (
@@ -144,49 +149,38 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                             {deliveryMethods.map((dv) => (
                                 <Div
                                     key={dv.id}
-                                    className="flex w-full items-center cursor-pointer"
+                                    className="flex w-full items-center justify-between cursor-pointer hover:bg-[#434343] hover:pr-3"
                                     onClick={() => setDelivery(dv)}
                                     $css=".css-vqmohf-MuiButtonBase-root-MuiRadio-root {color: rgb(251 251 251 / 80%)}.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {color: #e64d4d;} svg {font-size: 15px}"
                                 >
-                                    <H3 className="text-[13px] mr-">{dv.name}</H3> <Radio checked={delivery.id === dv.id} value={dv.id} name="radio-buttons" inputProps={{ 'aria-label': 'A' }} />
+                                    <div className="flex items-center w-[150px]">
+                                        <Radio checked={delivery.id === dv.id} value={dv.id} name="radio-buttons" inputProps={{ 'aria-label': 'A' }} />
+                                        <H3 className="text-[13px] ml-2">{dv.name}</H3>
+                                    </div>{' '}
+                                    <div className="flex items-center">
+                                        <p className="text-[13px] ml-2">{NumberFormatter(dv.cost)}</p>
+                                        <p className="text-[9px] ml-1 mb-2">{data.currency.name}</p>
+                                    </div>
                                 </Div>
                             ))}
                         </div>
                     </div>
                 </div>
                 <div>
-                    <H3 className="text-[13px] opacity-[0.7]">Currency & Preferential program</H3>
-                    <div className="p-3 bg-[#2c2c2c99]">
-                        <div className="flex items-center">
-                            <Div className="w-fit flex items-center">
-                                <H3 className="w-fit text-[12px] px-1" $css="">
-                                    Product cost {NumberFormatter(cateOption.price)}
-                                </H3>
-                                <p className="mx-1">+</p>
-                                <H3 className="w-fit text-[12px] px-1" $css="">
-                                    Delivery cost 30.000
-                                </H3>
-                            </Div>
-                            <p className="mx-1">=</p>
-                            <P className="text-sm " $css="text-decoration: line-through;">
-                                {NumberFormatter(cateOption.price + 30000)}
-                                {data.currency.name}
-                            </P>
-                        </div>
+                    <H3 className="text-[13px] opacity-[0.7]">Preferential programs</H3>
+                    <div className=" p-3 bg-[#2c2c2c99]">
                         <div className="my-2 flex items-center">
-                            <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
+                            {/* <H3 className="w-fit text-[12px] py-2 px-2" $css="background-color: rgb(180 42 42 / 80%);">
                                 Discount: 30%
-                            </H3>
-                            <p className="mx-1">+</p>
-                            <Div className="w-fit flex items-center bg-[#515151c7] px-2">
+                            </H3> */}
+                            {/* <Div className="w-fit flex items-center bg-[#515151c7] px-2">
                                 <H3 className="w-fit text-[12px] py-2 px-1" $css="">
                                     Free ship
                                 </H3>
                                 <div className="text-[20px]">
                                     <FcShipped />
                                 </div>
-                            </Div>{' '}
-                            <p className="mx-1">+</p>
+                            </Div>{' '} */}
                             <Div className="w-[57%] flex items-center bg-[#474747] px-2 cursor-pointer relative" $css="&:hover{.showVouchers{display:flex}}">
                                 <Div
                                     className="showVouchers hidden items-center flex-wrap absolute bottom-[35px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1 "
@@ -223,9 +217,38 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                 <p className="mx-1 text-[12px]">+3</p>
                             </Div>
                         </div>
-                        <div>
-                            <H3>Total: </H3>
+                    </div>
+                </div>
+                <div>
+                    <H3 className="text-[13px] opacity-[0.7]">Currency</H3>
+                    <div className=" p-3 bg-[#2c2c2c99]">
+                        <div className=" w-full ">
+                            <Div className="w-full  items-center">
+                                <div className="w-full flex items-center justify-between mb-1">
+                                    <H3 className="w-fit text-[13px] px-1" $css="">
+                                        Product cost
+                                    </H3>
+                                    <p className="text-[13px] ml-2">+{NumberFormatter(cateOption.price)}</p>
+                                </div>
+                                <div className="w-full flex items-center justify-between mb-1">
+                                    <H3 className="w-fit text-[13px] px-1" $css="">
+                                        Delivery cost
+                                    </H3>
+                                    <p className="text-[13px] ml-2">+{NumberFormatter(delivery.cost)}</p>
+                                </div>
+                            </Div>
+                            <Div className="flex items-center w-full justify-end">
+                                <H3>Total: </H3>
+                                <div className="flex items-center">
+                                    <P className="text-[13px] " $css="text-decoration: line-through;">
+                                        {NumberFormatter(cateOption.price + delivery.cost)}
+                                    </P>
+                                    <p className="text-[9px] ml-1 mb-2">{data.currency.name}</p>
+                                </div>
+                            </Div>
                         </div>
+
+                        <div></div>
                     </div>
                 </div>
             </Div>
