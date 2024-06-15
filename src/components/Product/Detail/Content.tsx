@@ -12,6 +12,8 @@ import { MdOutlineExpandMore } from 'react-icons/md';
 import { NumericFormat } from 'react-number-format';
 import { FaCheck } from 'react-icons/fa6';
 import { IconType } from 'react-icons';
+import Image from 'next/image';
+import Images from '@/assets/images';
 const labels: { [index: string]: string } = {
     0.5: 'Useless',
     1: 'Useless+',
@@ -34,12 +36,13 @@ const deliveryMethods = [
 ];
 const vouchersShop = [
     { id: '1', prefix: '%', cost: 10, condition: { prefix: '>=', name: 'price', valuePf: 60000 }, content: 'Áp dụng với sản phẩm có giá từ 60.000đ trở lên' },
-    { id: '2', prefix: '-', cost: 50000, condition: { prefix: '>=', name: 'item', valuePf: 2 }, content: '' },
-    { id: '2', prefix: '-', cost: 10000, condition: { prefix: '>=', name: 'potential', valuePf: 50 }, content: '' },
+    { id: '2', prefix: '-', cost: 50000, condition: { prefix: '>=', name: 'item', valuePf: 2 }, content: 'Áp dụng khi số lượng từ 2 trở lên' },
+    { id: '2', prefix: '-', cost: 10000, condition: { prefix: '>=', name: 'potential', valuePf: 50 }, content: 'Dành cho những khách hàng tiềm năng của chúng tôi' },
 ];
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatch<React.SetStateAction<PropsCateOptionDetail>> }> = ({ data, setImageColor }) => {
+    const [showVoucher, setShowVoucher] = useState<string>('');
     const [delivery, setDelivery] = React.useState<{ id: string; name: string; cost: number }>(deliveryMethods[0]);
     //cateOption
     const [cateOption, setCateOption] = useState<{ icon: ReactElement; price: number; data: { id: string; name: string; src?: string; selectId: string }[] }>({
@@ -181,40 +184,68 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                     <FcShipped />
                                 </div>
                             </Div>{' '} */}
-                            <Div className="w-[57%] flex items-center bg-[#474747] px-2 cursor-pointer relative" $css="&:hover{.showVouchers{display:flex}}">
-                                <Div
-                                    className="showVouchers hidden items-center flex-wrap absolute bottom-[35px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1 "
-                                    $css=".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{color: #d0d0d0} .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{color: #4492df  !important}"
-                                >
-                                    <div className="flex items-center ">
-                                        <Checkbox {...label} defaultChecked />
-                                        <p className="text-[13px]">
-                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                        </p>
-                                    </div>{' '}
-                                    <div className="flex items-center ">
-                                        <Checkbox {...label} defaultChecked />
-                                        <p className="text-[13px]">
-                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                        </p>
-                                    </div>{' '}
-                                    <div className="flex items-center ">
-                                        <Checkbox {...label} defaultChecked />
-                                        <p className="text-[13px]">
-                                            reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                        </p>
+                            <Div className="w-full px-2 cursor-pointer relative">
+                                <Div className="flex items-center w-full relative">
+                                    <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                        {"NeGAShop's Voucher"}
+                                    </H3>
+                                    <div className="rotate-180">
+                                        <MdOutlineExpandMore />
                                     </div>
+                                    <H3BOX className="w-fit text-[12px] py-1 px-1 hover:underline" $css="" onClick={() => setShowVoucher('NeGAShop')}>
+                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                    </H3BOX>
+                                    <p className="mx-1 text-[12px]">+3</p>
+                                    {showVoucher === 'NeGAShop' && (
+                                        <>
+                                            <Div className=" w-full h-full fixed items-center flex-wrap top-0 left-0 bg-[#0000007a] select-none" onClick={() => setShowVoucher('')}></Div>
+                                            <Div
+                                                className="w-full items-center z-10 flex-wrap absolute bottom-[34px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1  "
+                                                $css=".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{color: #d0d0d0} .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{color: #4492df  !important}"
+                                            >
+                                                <div className="flex items-center px-[6px]">
+                                                    <div className="w-[30px] h-[30px] ">
+                                                        {' '}
+                                                        <Image src={Images.logo} alt="NeGAShop" className="rounded-[50%]" />
+                                                    </div>
+                                                    <H3 className="w-fit text-[12px] p-2" $css="">
+                                                        {"NeGAShop's Voucher"}
+                                                    </H3>
+                                                </div>
+                                                <div className="flex items-center ">
+                                                    <Checkbox {...label} defaultChecked />
+                                                    <p className="text-[13px]">
+                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center ">
+                                                    <Checkbox {...label} defaultChecked />
+                                                    <p className="text-[13px]">
+                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-center ">
+                                                    <Checkbox {...label} defaultChecked />
+                                                    <p className="text-[13px]">
+                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
+                                                    </p>
+                                                </div>
+                                            </Div>
+                                        </>
+                                    )}
                                 </Div>
-                                <H3 className="w-fit text-[12px] py-2 px-1" $css="">
-                                    Voucher
-                                </H3>
-                                <div className="rotate-180">
-                                    <MdOutlineExpandMore />
+                                <div className="flex items-center w-full">
+                                    <H3 className="w-fit text-[12px] py-2 px-1" $css="">
+                                        {"Hung nguyen's Voucher"}
+                                    </H3>
+                                    <div className="rotate-180">
+                                        <MdOutlineExpandMore />
+                                    </div>
                                 </div>
-                                <H3BOX className="w-fit text-[12px] py-1 px-1" $css="">
+                                {/* <H3BOX className="w-fit text-[12px] py-1 px-1" $css="">
                                     reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
                                 </H3BOX>
-                                <p className="mx-1 text-[12px]">+3</p>
+                                <p className="mx-1 text-[12px]">+3</p> */}
                             </Div>
                         </div>
                     </div>
@@ -237,7 +268,7 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                     <p className="text-[13px] ml-2">+{NumberFormatter(delivery.cost)}</p>
                                 </div>
                             </Div>
-                            <Div className="flex items-center w-full justify-end">
+                            <Div className="flex items-center w-full justify-between">
                                 <H3>Total: </H3>
                                 <div className="flex items-center">
                                     <P className="text-[13px] " $css="text-decoration: line-through;">
