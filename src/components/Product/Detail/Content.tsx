@@ -9,9 +9,7 @@ import { PropsCateOptionDetail, PropsProductDetail } from '@/app/product/detail/
 import { IoMdHeart } from 'react-icons/io';
 import { FcShipped } from 'react-icons/fc';
 import { MdOutlineExpandMore } from 'react-icons/md';
-import { NumericFormat } from 'react-number-format';
 import { FaCheck } from 'react-icons/fa6';
-import { IconType } from 'react-icons';
 import Image from 'next/image';
 import Images from '@/assets/images';
 const labels: { [index: string]: string } = {
@@ -48,7 +46,6 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
     const [cateOption, setCateOption] = useState<{ icon: ReactElement; price: number; data: { id: string; name: string; src?: string; selectId: string }[] }>({
         icon: (
             <div className="absolute bottom-0 right-0">
-                {' '}
                 <FaCheck />
             </div>
         ),
@@ -200,10 +197,10 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                         <>
                                             <Div className=" w-full h-full fixed items-center flex-wrap top-0 left-0 bg-[#0000007a] select-none" onClick={() => setShowVoucher('')}></Div>
                                             <Div
-                                                className="w-full items-center z-10 flex-wrap absolute bottom-[34px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1  "
+                                                className="w-full items-center cursor-auto z-10 flex-wrap absolute bottom-[34px] left-0 bg-[#2d2d2d] shadow-[0_0_5px_black] p-1  "
                                                 $css=".css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root{color: #d0d0d0} .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.Mui-checked, .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate{color: #4492df  !important}"
                                             >
-                                                <div className="flex items-center px-[6px]">
+                                                <div className="flex items-center justify-center px-[6px] mb-2">
                                                     <div className="w-[30px] h-[30px] ">
                                                         {' '}
                                                         <Image src={Images.logo} alt="NeGAShop" className="rounded-[50%]" />
@@ -212,23 +209,31 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                                         {"NeGAShop's Voucher"}
                                                     </H3>
                                                 </div>
-                                                <div className="flex items-center ">
-                                                    <Checkbox {...label} defaultChecked />
-                                                    <p className="text-[13px]">
-                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                                    </p>
-                                                </div>
-                                                <div className="flex items-center ">
-                                                    <Checkbox {...label} defaultChecked />
-                                                    <p className="text-[13px]">
-                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                                    </p>
-                                                </div>
-                                                <div className="flex items-center ">
-                                                    <Checkbox {...label} defaultChecked />
-                                                    <p className="text-[13px]">
-                                                        reduce 15{data.currency.name} when buy anything greater than 100{data.currency.name}
-                                                    </p>
+                                                <div className="flex items-center flex-wrap justify-around">
+                                                    <div className="w-[250px]  h-[80px] mb-2  flex items-center flex-wrap justify-between   shadow-[0px_0px_1px] rounded-tr-[5px] rounded-br-[5px]">
+                                                        <p className="text-[13px] w-full text-center">Discount 50%</p>
+                                                        <div className="flex items-center w-full  justify-between">
+                                                            <div className="p-2">
+                                                                <p className="text-[10px] opacity-70">Minimum order 450k</p>
+                                                                <p className="text-[10px] opacity-70">Expire: 15.07.2024</p>
+                                                            </div>
+                                                            <div className="px-2 mt-2">
+                                                                <p className="text-[10px] cursor-pointer px-3 py-[2px] bg-[rgb(11_139_174_/_75%)] rounded-[1px]">Collect</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="w-[250px] h-[80px] mb-2 flex items-center flex-wrap justify-between   shadow-[0px_0px_1px] rounded-tr-[5px] rounded-br-[5px]">
+                                                        <p className="text-[13px] w-full text-center">Discount 50%</p>
+                                                        <div className="flex items-center w-full  justify-between">
+                                                            <div className="p-2">
+                                                                <p className="text-[10px] opacity-70">Minimum order 450k</p>
+                                                                <p className="text-[10px] opacity-70">Expire: 15.07.2024</p>
+                                                            </div>
+                                                            <div className="px-2 mt-2">
+                                                                <p className="text-[10px] px-3 py-[2px] cursor-pointer bg-[rgb(11_139_174_/_75%)] rounded-[1px]">Collect</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </Div>
                                         </>
@@ -269,7 +274,7 @@ const Content: React.FC<{ data: PropsProductDetail; setImageColor: React.Dispatc
                                 </div>
                             </Div>
                             <Div className="flex items-center w-full justify-between">
-                                <H3>Total: </H3>
+                                <H3 className="w-fit text-[13px] px-1">Total: </H3>
                                 <div className="flex items-center">
                                     <P className="text-[13px] " $css="text-decoration: line-through;">
                                         {NumberFormatter(cateOption.price + delivery.cost)}
