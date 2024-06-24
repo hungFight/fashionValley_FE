@@ -28,10 +28,10 @@ export default async function RootLayout({
             <body className={`${inter.className} flex justify-center`}>
                 <AuthSessionProvider>
                     <StyledComponentsRegistry>
-                        <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-[#1e1e1e] text-[#dcdcdc] pt-[55px]">
+                        <div className="w-full relative min-[1920px]:w-[1920px] min-h-[100vh] bg-white text-[rgb(77_77_77)] ">
                             {data?.user && <Header user={data.user} />}
                             <Drawer />
-                            <div className="pl-[51px] bg-[#1d1d1d]">{children}</div>
+                            <div className=" bg-white">{children}</div>
                         </div>
                     </StyledComponentsRegistry>
                 </AuthSessionProvider>

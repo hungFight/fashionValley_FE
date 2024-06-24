@@ -1,4 +1,5 @@
 import FavoriteList from '@/components/Home/FavoriteList';
+import { Div } from '@/utils/styleComponent';
 
 export const dataDetail = [
     {
@@ -182,7 +183,7 @@ export const dataDetail = [
                 thumb: 'hello',
                 subHtml:
                     "<h4>Photo by - <a href='https://unsplash.com/@tobbes_rd' >Tobias Rademacher </a></h4><p> Location - <a href='https://unsplash.com/s/photos/puezgruppe%2C-wolkenstein-in-gr%C3%B6den%2C-s%C3%BCdtirol%2C-italien'>Puezgruppe, Wolkenstein in Gröden, Südtirol, Italien</a>layers of blue.</p>",
-                src: 'https://d3vfig6e0r0snz.cloudfront.net/rcYjnYuenaTH5vyDF/imagess/products/9e23cd1bdbefe72c7cf52bb07e7dc869.webp',
+                src: 'https://i.pinimg.com/564x/09/30/f5/0930f5019e367f61b4cceeedd4981b54.jpg',
             },
         ],
         currency: { id: '1', name: 'VND', icon: '$', price: 790.83 },
@@ -218,22 +219,37 @@ export const dataDetail = [
 ];
 export default function Home() {
     return (
-        <div className="flex flex-wrap lg:flex-nowrap h-full">
+        <div className=" lg:flex-nowrap h-full text-[var(--white-color)]">
             {/* <div className="w-full lg:w-[478px] px-3 py-5 ">
                 <TabOne />
             </div> */}
-            <div className="w-[65.5%] px-3 py-5">
-                <div className="w-full flex flex-wrap mb-4">
-                    <div className="w-full flex items-center mb-[10px]">
-                        {' '}
-                        <div className="w-full h-[1px] bg-[rgb(100_100_100)]"></div>
-                        <h1 className="text-sm px-2">Outstanding</h1>
-                        <div className="w-full h-[1px] bg-[rgb(100_100_100)]"></div>
-                    </div>
-                    <FavoriteList data={dataDetail} />
+            <Div
+                className="h-[500px] relative md:h-[550px] lg:h-[600px] w-full"
+                $css="background-size: cover;background-image: url(https://4kwallpapers.com/images/wallpapers/full-moon-night-time-lake-body-of-water-reflection-3840x2160-4610.jpg)"
+            >
+                <div className="w-[65.5%] px-3 py-5 absolute bottom-0 left-0">
+                    <div className="w-full flex flex-wrap mb-4">
+                        <div className="w-full mb-[40px] flex items-center ">
+                            <h1 className="text-[25px] px-3 font-[PopPOne]">Outstanding 🥰</h1>
+                        </div>
+                        <FavoriteList data={dataDetail} />
+                    </div>{' '}
+                    <div>3</div>
                 </div>{' '}
-                <div>3</div>
-            </div>
+                <div className="px-3 py-5 absolute top-20 right-0">
+                    <div className=" mb-4">
+                        <div className=" mb-[20px] flex items-center ">
+                            <h1 className="text-[20px] px-3 font-[PopPOne]">Best favorite shop ❤️</h1>
+                        </div>
+                        <div className="flex items-center">
+                            <div className="w-[35px] h-[35px]">
+                                <img className="rounded-[50%]" src="https://i.pinimg.com/736x/58/71/d4/5871d4ac5c9cd822c149a5673240afd8.jpg" />
+                            </div>
+                            <h2 className="ml-2 text-base font-bold">Huyen shop</h2>
+                        </div>
+                    </div>{' '}
+                </div>
+            </Div>
         </div>
     );
 }

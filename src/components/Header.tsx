@@ -8,12 +8,7 @@ import { Div, Links } from '@/utils/styleComponent';
 import Images from '@/assets/images';
 const Header: React.FC<{ user: { name: string; email: string; image: string } }> = async ({ user }) => {
     return (
-        <Div
-            className="w-full h-[55px] z-[9999] flex justify-between items-center px-5 fixed top-0 left-1/2 translate-x-[-50%] min-[1920px]:w-[1920px]"
-            $css={`
-                    background-image: linear-gradient(1deg, #3b3b3b, #121212);
-                `}
-        >
+        <Div className="w-full h-[55px] text-[#f2f2f2] z-[9999] bg-transparent flex justify-between items-center px-5 fixed top-0 left-1/2 translate-x-[-50%] min-[1920px]:w-[1920px]">
             <div className="flex items-center">
                 <div className="w-[40px] h-[40px] ">
                     <Image src={Images.logo} alt="Fashion Valley" className="rounded-[50%] " />
